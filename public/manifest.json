@@ -2,11 +2,14 @@
   "manifest_version": 3,
   "name": "AWS SSO Account Organiser",
   "version": "1",
+  "action": {
+    "default_popup": "src/popup/index.html"
+  },
   "content_scripts": [
     {
       "all_frames": true,
       "js": ["index.js"],
-      "matches": ["https://*.awsapps.com/*"],
+      "matches": ["https://*.awsapps.com/*", "<all_urls>"],
       "run_at": "document_end"
     }
   ]
