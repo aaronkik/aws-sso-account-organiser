@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "AWS SSO Account Organiser",
+  "version": "1",
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "js": ["index.js"],
+      "matches": ["https://*.awsapps.com/*"],
+      "run_at": "document_end"
+    }
+  ]
+}
