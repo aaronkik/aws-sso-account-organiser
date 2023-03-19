@@ -5,6 +5,11 @@ import { defineConfig } from 'vite';
 const srcDir = resolve(__dirname, 'src');
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '~': srcDir,
+    },
+  },
   build: {
     rollupOptions: {
       plugins: [react({ fastRefresh: false })],

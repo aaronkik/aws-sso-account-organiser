@@ -10,7 +10,9 @@
     "moduleResolution": "nodenext",
     "rootDir": "./",
     "baseUrl": "./",
-    "paths": {},
+    "paths": {
+      "~/*": ["./src/*"]
+    },
     "sourceMap": true,
     "removeComments": true,
     "noEmit": true,

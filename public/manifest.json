@@ -12,5 +12,6 @@
       "matches": ["https://*.awsapps.com/*", "<all_urls>"],
       "run_at": "document_end"
     }
-  ]
+  ],
+  "permissions": ["storage"]
 }
