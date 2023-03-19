@@ -14,7 +14,7 @@ export default defineConfig({
     rollupOptions: {
       plugins: [react({ fastRefresh: false })],
       input: {
-        index: resolve(srcDir, 'index.ts'),
+        background: resolve(srcDir, 'background/index.ts'),
         popup: resolve(srcDir, 'popup/index.html'),
       },
       output: {

@@ -8,7 +8,7 @@
   "content_scripts": [
     {
       "all_frames": true,
-      "js": ["index.js"],
+      "js": ["background.js"],
       "matches": ["https://*.awsapps.com/*", "<all_urls>"],
       "run_at": "document_end"
     }
