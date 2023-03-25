@@ -1,31 +1,58 @@
-console.log('background script loaded');
+import { GetAccountFilterChromeStorage } from '~/types/chrome';
 
-// Options for the observer (which mutations to observe)
-const config: MutationObserverInit = {
-  attributes: true,
-  childList: true,
-  subtree: true,
-};
+const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
+  for (const { addedNodes } of mutationRecord) {
+    for (const addedNode of addedNodes.values()) {
+      const { nodeName } = addedNode;
+      const isAwsAccountPortalApp =
+        nodeName === 'PORTAL-APPLICATION' &&
+        addedNode instanceof HTMLElement &&
+        addedNode.getAttribute('title') === 'AWS Account';
 
-const documentBodyObserver = new MutationObserver((mutations) => {
-  const nodeList = mutations
-    .filter((mutation) => mutation.addedNodes.length > 0)
-    .map((mutation) => mutation.addedNodes);
-
-  for (const nodeListValues of nodeList.values()) {
-    for (const nodeListValues1 of nodeListValues.values()) {
-      if (nodeListValues1.nodeName === 'PORTAL-APPLICATION') {
-        console.log({ cc: nodeListValues1.nodeType === Node.ELEMENT_NODE });
-        if (nodeListValues1 instanceof HTMLElement) {
-          console.log({ ins: nodeListValues1 });
-
-          nodeListValues1.click();
-        }
+      if (isAwsAccountPortalApp) {
+        addedNode.click();
+        continue;
       }
+
+      const isSsoExpander = nodeName === 'SSO-EXPANDER' && addedNode instanceof HTMLElement;
+
+      if (!isSsoExpander) continue;
+
+      const portalInstanceList = addedNode.querySelector('portal-instance-list');
+
+      if (!portalInstanceList) continue;
+
+      let userStorageAccountFilters: GetAccountFilterChromeStorage | null | undefined;
+
+      try {
+        userStorageAccountFilters = await chrome.storage.sync.get('accountFilters');
+      } catch (error) {
+        console.error('Error accessing storage for key accountFilters', error);
+        continue;
+      }
+
+      if (!userStorageAccountFilters) continue;
+      if (!('accountFilters' in userStorageAccountFilters)) continue;
+      if (!Array.isArray(userStorageAccountFilters?.accountFilters)) continue;
+      if (!userStorageAccountFilters.accountFilters.length) continue;
+
+      const { accountFilters } = userStorageAccountFilters;
+
+      const portalInstances = addedNode.querySelectorAll('portal-instance-list > div');
+
+      const filteredAwsAccountNodes = Array.from(portalInstances).filter((instance) => {
+        const awsAccountName = instance.querySelector('.name')?.textContent;
+
+        const filteredNode = accountFilters.find(({ filter }) =>
+          awsAccountName?.trim().toLowerCase().includes(filter.trim().toLowerCase())
+        );
+
+        return filteredNode;
+      });
+
+      portalInstanceList.replaceChildren(...filteredAwsAccountNodes);
     }
   }
 });
 
-documentBodyObserver.observe(document.body, config);
-
-export {};
+documentBodyObserver.observe(document.body, { childList: true, subtree: true });
