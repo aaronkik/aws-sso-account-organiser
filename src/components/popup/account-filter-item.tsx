@@ -23,7 +23,7 @@ const AccountFilterItem = (props: Props) => {
 
   return (
     <div className='flex flex-row items-center justify-between gap-4 py-4 px-2'>
-      <p className='text-base'>{filterName}</p>
+      <p className='overflow-hidden text-ellipsis text-base'>{filterName}</p>
       <Button className='bg-red-500 text-sm' onClick={deleteFilterItem}>
         Delete
       </Button>
