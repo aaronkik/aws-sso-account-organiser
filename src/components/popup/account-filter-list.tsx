@@ -1,23 +1,41 @@
-import { useEffect, useState } from 'react';
-import { AccountFilter, AccountFilterChromeStorageChange } from '~/types';
+import { useEffect, useRef, useState } from 'react';
+import type {
+  AccountFilter,
+  AccountFilterChromeStorageChange,
+  GetAccountFilterChromeStorage,
+} from '~/types';
 import AccountFilterItem from './account-filter-item';
 
 const AccountFilterList = () => {
   const [accountFilters, setAccountFilters] = useState<Array<AccountFilter>>([]);
+  const divListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    chrome.storage.sync.get('accountFilters').then((result) => {
-      if (!result['accountFilters']) return;
-      setAccountFilters(result['accountFilters']);
-    });
+    const getAndSetUserAccountFilters = async () => {
+      const userAccountFilters: GetAccountFilterChromeStorage | null | undefined =
+        await chrome.storage.sync.get('accountFilters');
+      if (!userAccountFilters?.accountFilters) return;
+      setAccountFilters(userAccountFilters?.accountFilters);
+    };
+
+    getAndSetUserAccountFilters();
   }, []);
 
   useEffect(() => {
     const onChange = (changes: chrome.storage.StorageChange | AccountFilterChromeStorageChange) => {
       if (!('accountFilters' in changes)) return;
+
       const { accountFilters } = changes;
+
       if (!accountFilters?.newValue) return;
-      setAccountFilters(accountFilters.newValue);
+
+      const { newValue, oldValue } = accountFilters;
+
+      setAccountFilters(newValue);
+
+      if (Array.isArray(oldValue) && oldValue.length >= newValue.length) return;
+
+      divListRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     chrome.storage.onChanged.addListener(onChange);
@@ -27,23 +45,24 @@ const AccountFilterList = () => {
     };
   }, []);
 
-  return (
-    <div className='flex flex-col gap-2 py-2 px-4'>
-      {accountFilters.length === 0 ? (
-        <p className='text-center text-lg font-medium text-neutral-500'>You have no filters</p>
-      ) : (
-        <>
-          <h2 className='text-xs font-semibold tracking-wider text-neutral-500'>
-            Filters ({accountFilters.length})
-          </h2>
-          <div className='flex flex-col divide-y divide-neutral-300'>
-            {accountFilters.map((filter) => (
-              <AccountFilterItem key={filter.id} filterItem={filter} filterList={accountFilters} />
-            ))}
-          </div>
-        </>
-      )}
-    </div>
+  return accountFilters.length ? (
+    <>
+      <p className='py-2 px-4 text-xs font-semibold tracking-wider'>
+        Filters ({accountFilters.length})
+      </p>
+      <div
+        className='mx-4 mb-4 flex flex-1 overflow-scroll rounded-sm bg-slate-700 shadow-inner'
+        ref={divListRef}
+      >
+        <ul className='w-full'>
+          {accountFilters.map((filter) => (
+            <AccountFilterItem key={filter.id} filterItem={filter} filterList={accountFilters} />
+          ))}
+        </ul>
+      </div>
+    </>
+  ) : (
+    <p className='mt-4 text-center text-lg font-medium text-slate-400'>You have no filters</p>
   );
 };
 

@@ -22,12 +22,15 @@ const AccountFilterItem = (props: Props) => {
   };
 
   return (
-    <div className='flex flex-row items-center justify-between gap-4 py-4 px-2'>
-      <p className='overflow-hidden text-ellipsis text-base'>{filterName}</p>
-      <Button className='bg-red-500 text-sm' onClick={deleteFilterItem}>
+    <li className='flex flex-row items-center justify-between gap-4 p-4 transition-colors hover:bg-slate-600/80'>
+      <p className='overflow-hidden text-ellipsis whitespace-nowrap text-base'>{filterName}</p>
+      <Button
+        className='bg-red-400 text-sm hover:bg-red-500 focus-visible:bg-red-600 active:bg-red-600'
+        onClick={deleteFilterItem}
+      >
         Delete
       </Button>
-    </div>
+    </li>
   );
 };
 

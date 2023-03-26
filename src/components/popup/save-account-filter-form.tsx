@@ -11,6 +11,7 @@ const SaveAccountFilterForm = () => {
     formState: { errors },
     handleSubmit,
     register,
+    reset,
   } = useForm<FormValues>({
     defaultValues: {
       accountFilter: '',
@@ -40,18 +41,15 @@ const SaveAccountFilterForm = () => {
       await chrome.storage.sync.set({
         accountFilters: [newAccountFilter, ...filteredDuplicateAccountFilters],
       });
+
+      reset({ accountFilter: '' });
     } catch (error) {
       console.error(error);
     }
   });
 
   return (
-    <form
-      autoComplete='off'
-      className='py-2'
-      id='save-account-filter-form'
-      onSubmit={saveAccountFilter}
-    >
+    <form autoComplete='off' id='save-account-filter-form' onSubmit={saveAccountFilter}>
       <div className='flex gap-4'>
         <Input
           aria-label='Account filter input'
