@@ -7,7 +7,9 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "vite",
+    "prebuild": "tsc --noEmit",
     "build": "vite build",
+    "prebuild:watch": "tsc --noEmit",
     "build:watch": "vite build --watch"
   },
   "dependencies": {
