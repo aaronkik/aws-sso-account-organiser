@@ -9,7 +9,7 @@
     {
       "all_frames": true,
       "js": ["background.js"],
-      "matches": ["https://*.awsapps.com/*", "<all_urls>"],
+      "matches": ["https://*.awsapps.com/*"],
       "run_at": "document_end"
     }
   ],
