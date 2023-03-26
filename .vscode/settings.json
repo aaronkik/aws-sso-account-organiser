@@ -3,6 +3,10 @@
     {
       "fileMatch": ["public/manifest.json"],
       "url": "https://json.schemastore.org/chrome-manifest.json"
+    },
+    {
+      "fileMatch": ["tsconfig.json"],
+      "url": "https://json.schemastore.org/tsconfig"
     }
   ]
 }
