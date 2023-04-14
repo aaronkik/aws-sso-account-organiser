@@ -19,7 +19,10 @@ export class ChromeStorageArea {
     }
 
     if (typeof keys === 'string') {
-      return Promise.resolve({ [keys]: this.#storage[keys] });
+      if (keys in this.#storage) {
+        return Promise.resolve({ [keys]: this.#storage[keys] });
+      }
+      return Promise.resolve({});
     }
 
     if (Array.isArray(keys)) {
