@@ -6,7 +6,7 @@
     "jsx": "react-jsx",
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "bundler",
     "rootDir": "./",
     "baseUrl": "./",
     "paths": {
@@ -39,6 +39,5 @@
     "allowUnreachableCode": false,
     "useDefineForClassFields": true
   },
-  "include": ["src/**/*"],
-  "exclude": []
+  "include": ["src/**/*"]
 }
