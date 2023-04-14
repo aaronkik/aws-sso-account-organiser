@@ -10,7 +10,9 @@
     "prebuild": "tsc --noEmit",
     "build": "vite build",
     "prebuild:watch": "tsc --noEmit",
-    "build:watch": "vite build --watch"
+    "build:watch": "vite build --watch",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest --watch"
   },
   "dependencies": {
     "@fontsource/inter": "^4.5.15",
@@ -28,6 +30,7 @@
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "@vitejs/plugin-react": "^3.1.0",
+    "@vitest/coverage-c8": "^0.29.7",
     "autoprefixer": "^10.4.14",
     "cssnano": "^5.1.15",
     "eslint": "^8.36.0",
@@ -35,13 +38,15 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.3",
+    "jsdom": "^21.1.1",
     "lint-staged": "^13.2.0",
     "postcss": "^8.4.21",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.2.5",
     "tailwindcss": "^3.2.7",
     "typescript": "^5.0.2",
-    "vite": "^4.2.0"
+    "vite": "^4.2.0",
+    "vitest": "^0.29.7"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

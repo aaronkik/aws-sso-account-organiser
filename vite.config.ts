@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import react from '@vitejs/plugin-react';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
@@ -20,6 +22,12 @@ export default defineConfig({
       output: {
         entryFileNames: (chunk) => `${chunk.name}.js`,
       },
+    },
+  },
+  test: {
+    environment: 'jsdom',
+    coverage: {
+      exclude: ['**/*.test.{ts,tsx}', '__mocks__/**/*'],
     },
   },
 });
