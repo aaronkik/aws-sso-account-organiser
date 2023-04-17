@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import type {
-  AccountFilter,
-  AccountFilterChromeStorageChange,
-  GetAccountFilterChromeStorage,
-} from '~/types';
+import type { AccountFilter, AccountFilterChromeStorageChange } from '~/types';
+import { AccountFilterStorage } from '~/services/account-filter-storage';
 import AccountFilterItem from './account-filter-item';
+
+const accountFilterStorage = new AccountFilterStorage();
 
 const AccountFilterList = () => {
   const [accountFilters, setAccountFilters] = useState<Array<AccountFilter>>([]);
@@ -12,10 +11,12 @@ const AccountFilterList = () => {
 
   useEffect(() => {
     const getAndSetUserAccountFilters = async () => {
-      const userAccountFilters: GetAccountFilterChromeStorage | null | undefined =
-        await chrome.storage.sync.get('accountFilters');
-      if (!userAccountFilters?.accountFilters) return;
-      setAccountFilters(userAccountFilters?.accountFilters);
+      const userAccountFilters = await accountFilterStorage.get();
+
+      if (!userAccountFilters) return;
+      if (!('accountFilters' in userAccountFilters)) return;
+
+      setAccountFilters(userAccountFilters.accountFilters);
     };
 
     getAndSetUserAccountFilters();
@@ -51,7 +52,7 @@ const AccountFilterList = () => {
         Filters ({accountFilters.length})
       </p>
       <div
-        className='mx-4 mb-4 flex flex-1 overflow-scroll rounded-sm bg-slate-700 shadow-inner'
+        className='mx-4 mb-4 flex flex-1 overflow-y-auto rounded-sm bg-slate-700 shadow-inner'
         ref={divListRef}
       >
         <ul className='w-full'>

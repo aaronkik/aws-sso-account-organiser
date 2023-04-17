@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { ChromeStorageSync } from '~/repositories';
 
 const accountFiltersStorageKey = 'accountFilters';
@@ -21,5 +22,29 @@ export class AccountFilterStorage {
 
   async set(accountFilters: Array<AccountFilter>) {
     return this.#storage.set({ accountFilters });
+  }
+
+  async add(accountFilterName: AccountFilter['filter']) {
+    const newAccountFilter: AccountFilter = {
+      id: randomUUID(),
+      filter: accountFilterName.trim(),
+    };
+
+    const accountFilterStorageResult = await this.get();
+
+    if (
+      !accountFilterStorageResult ||
+      !('accountFilters' in accountFilterStorageResult) ||
+      !Array.isArray(accountFilterStorageResult.accountFilters) ||
+      accountFilterStorageResult.accountFilters.length === 0
+    ) {
+      return this.set([newAccountFilter]);
+    }
+
+    const filteredDuplicateAccountFilters = accountFilterStorageResult.accountFilters.filter(
+      ({ filter }) => filter !== newAccountFilter.filter
+    );
+
+    return this.set([newAccountFilter, ...filteredDuplicateAccountFilters]);
   }
 }

@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Input > matches snapshot 1`] = `
+<div>
+  <input
+    class="w-full rounded-sm border border-transparent bg-slate-700 leading-6 placeholder:text-slate-500 focus:border-orange-400 focus:bg-transparent focus:ring-orange-400 focus:placeholder:text-slate-600"
+  />
+</div>
+`;

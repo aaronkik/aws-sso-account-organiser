@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FormErrorMessage > matches snapshot 1`] = `
+<div>
+  <p
+    class="text-sm text-red-400"
+    data-testid="form-error-message"
+    role="alert"
+  >
+    This is a form error message
+  </p>
+</div>
+`;

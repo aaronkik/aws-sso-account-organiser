@@ -1,16 +1,7 @@
-import { describe, expect, vi, beforeEach, afterEach, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { ChromeStorageSync } from './chrome-storage-sync';
-import { chrome } from '../../__mocks__/chrome';
 
 describe('ChromeStorageSync', () => {
-  beforeEach(() => {
-    vi.stubGlobal('chrome', chrome);
-  });
-
-  afterEach(() => {
-    vi.unstubAllGlobals();
-  });
-
   test(`GIVEN a query to get all storage items
         WHEN chrome storage is empty
         THEN expect an empty object to be returned`, async () => {

@@ -25,9 +25,11 @@ export default defineConfig({
     },
   },
   test: {
-    environment: 'jsdom',
     coverage: {
-      exclude: ['**/*.test.{ts,tsx}', '__mocks__/**/*'],
+      exclude: ['./**/*.test.{ts,tsx}', './__mocks__/**/*', './tests/**/*'],
     },
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./tests/setUpGlobals.ts', './tests/setupTestingLibrary.ts'],
   },
 });
