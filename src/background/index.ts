@@ -1,4 +1,6 @@
-import { GetAccountFilterChromeStorage } from '~/types/chrome';
+import { AccountFilterStorage } from '~/services/account-filter-storage';
+
+const accountFilterStorage = new AccountFilterStorage();
 
 const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
   for (const { addedNodes } of mutationRecord) {
@@ -22,10 +24,10 @@ const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
 
       if (!portalInstanceList) continue;
 
-      let userStorageAccountFilters: GetAccountFilterChromeStorage | null | undefined;
+      let userStorageAccountFilters: Awaited<ReturnType<AccountFilterStorage['get']>>;
 
       try {
-        userStorageAccountFilters = await chrome.storage.sync.get('accountFilters');
+        userStorageAccountFilters = await accountFilterStorage.get();
       } catch (error) {
         console.error('Error accessing storage for key accountFilters', error);
         continue;
