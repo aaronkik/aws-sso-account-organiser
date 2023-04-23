@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import { ChromeStorageSync } from '~/repositories';
 
 const accountFiltersStorageKey = 'accountFilters';
@@ -26,7 +25,7 @@ export class AccountFilterStorage {
 
   async add(accountFilterName: AccountFilter['filter']) {
     const newAccountFilter: AccountFilter = {
-      id: randomUUID(),
+      id: crypto.randomUUID(),
       filter: accountFilterName.trim(),
     };
 
