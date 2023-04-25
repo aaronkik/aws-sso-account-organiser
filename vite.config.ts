@@ -26,7 +26,7 @@ export default defineConfig({
   },
   test: {
     coverage: {
-      exclude: ['./**/*.test.{ts,tsx}', './__mocks__/**/*', './tests/**/*'],
+      exclude: ['**/*.test.{ts,tsx}', '__mocks__/**/*', 'tests/**/*'],
     },
     environment: 'jsdom',
     globals: true,
