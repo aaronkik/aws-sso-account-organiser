@@ -69,4 +69,57 @@ describe('AccountFilterStatus', () => {
     await accountFilterStatus.disable();
     await expect(accountFilterStatus.get()).resolves.toEqual(false);
   });
+
+  test(`GIVEN a query to get accountFilterStatus
+        WHEN chrome storage throws an error
+        THEN expect get to reject with the error`, async () => {
+    const accountFilterStatus = new AccountFilterStatus();
+
+    const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
+    chromeStorageSyncGetSpy.mockRejectedValue(new Error('test error'));
+
+    await expect(accountFilterStatus.get()).rejects.toThrowError('test error');
+  });
+
+  test(`GIVEN a query to get accountFilterStatus
+        WHEN chrome storage returns an empty object
+        THEN expect get to resolve to false`, async () => {
+    const accountFilterStatus = new AccountFilterStatus();
+
+    const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
+    chromeStorageSyncGetSpy.mockResolvedValue({});
+    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+  });
+
+  test(`GIVEN a query to get accountFilterStatus
+        WHEN chrome storage returns an object with a key that is not accountFilterStatus
+        THEN expect get to resolve to false`, async () => {
+    const accountFilterStatus = new AccountFilterStatus();
+
+    const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
+    chromeStorageSyncGetSpy.mockResolvedValue({ test: true });
+    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+  });
+
+  test(`GIVEN a query to get accountFilterStatus
+        WHEN chrome storage returns nothing
+        THEN expect get to resolve to false`, async () => {
+    const accountFilterStatus = new AccountFilterStatus();
+
+    const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
+    chromeStorageSyncGetSpy.mockResolvedValue(undefined);
+    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+  });
+
+  test(`GIVEN a query to get accountFilterStatus
+        WHEN chrome storage returns an object with a key that is accountFilterStatus
+        AND the value is not a boolean
+        THEN expect get to resolve to false`, async () => {
+    const accountFilterStatus = new AccountFilterStatus();
+
+    const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
+
+    chromeStorageSyncGetSpy.mockResolvedValue({ accountFilterStatus: 'test' });
+    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+  });
 });
