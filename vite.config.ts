@@ -27,6 +27,7 @@ export default defineConfig({
   test: {
     coverage: {
       exclude: ['**/*.test.{ts,tsx}', '__mocks__/**/*', 'tests/**/*'],
+      reporter: ['text', 'html', 'json', 'lcov'],
     },
     environment: 'jsdom',
     globals: true,

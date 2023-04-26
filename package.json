@@ -11,7 +11,8 @@
     "build": "vite build",
     "prebuild:watch": "tsc --noEmit",
     "build:watch": "vite build --watch",
-    "test": "vitest run --coverage",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "test:watch": "vitest --watch"
   },
   "dependencies": {
