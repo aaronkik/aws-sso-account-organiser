@@ -1,4 +1,4 @@
-import Button from '~/components/shared/button';
+import { Button } from '~/components';
 import { AccountFilterStorage } from '~/services/account-filter-storage';
 import { AccountFilter } from '~/types';
 

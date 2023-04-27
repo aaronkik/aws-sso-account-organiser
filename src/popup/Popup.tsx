@@ -1,4 +1,4 @@
-import { AccountFilterList, SaveAccountFilterForm } from '~/components/popup';
+import { AccountFilterList, SaveAccountFilterForm } from './components';
 
 const Popup = () => {
   return (
