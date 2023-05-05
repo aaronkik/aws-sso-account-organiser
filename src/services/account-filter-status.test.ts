@@ -47,27 +47,29 @@ describe('AccountFilterStatus', () => {
         THEN expect get to resolve to false`, async () => {
     const accountFilterStatus = new AccountFilterStatus();
 
-    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+    spyOnChromeStorageSyncGet().mockResolvedValueOnce({});
+
+    await expect(accountFilterStatus.get()).resolves.toBe(false);
   });
 
   test(`GIVEN accountFilterStatus is enabled
         THEN expect get to resolve to true`, async () => {
     const accountFilterStatus = new AccountFilterStatus();
 
-    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+    await expect(accountFilterStatus.get()).resolves.toBe(false);
     await accountFilterStatus.enable();
-    await expect(accountFilterStatus.get()).resolves.toEqual(true);
+    await expect(accountFilterStatus.get()).resolves.toBe(true);
   });
 
   test(`GIVEN accountFilterStatus is disabled after being enabled
         THEN expect get to resolve to false`, async () => {
     const accountFilterStatus = new AccountFilterStatus();
 
-    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+    await expect(accountFilterStatus.get()).resolves.toBe(false);
     await accountFilterStatus.enable();
-    await expect(accountFilterStatus.get()).resolves.toEqual(true);
+    await expect(accountFilterStatus.get()).resolves.toBe(true);
     await accountFilterStatus.disable();
-    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+    await expect(accountFilterStatus.get()).resolves.toBe(false);
   });
 
   test(`GIVEN a query to get accountFilterStatus
@@ -75,8 +77,7 @@ describe('AccountFilterStatus', () => {
         THEN expect get to reject with the error`, async () => {
     const accountFilterStatus = new AccountFilterStatus();
 
-    const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
-    chromeStorageSyncGetSpy.mockRejectedValue(new Error('test error'));
+    spyOnChromeStorageSyncGet().mockRejectedValueOnce(new Error('test error'));
 
     await expect(accountFilterStatus.get()).rejects.toThrowError('test error');
   });
@@ -86,9 +87,9 @@ describe('AccountFilterStatus', () => {
         THEN expect get to resolve to false`, async () => {
     const accountFilterStatus = new AccountFilterStatus();
 
-    const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
-    chromeStorageSyncGetSpy.mockResolvedValue({});
-    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+    spyOnChromeStorageSyncGet().mockResolvedValueOnce({});
+
+    await expect(accountFilterStatus.get()).resolves.toBe(false);
   });
 
   test(`GIVEN a query to get accountFilterStatus
@@ -96,9 +97,9 @@ describe('AccountFilterStatus', () => {
         THEN expect get to resolve to false`, async () => {
     const accountFilterStatus = new AccountFilterStatus();
 
-    const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
-    chromeStorageSyncGetSpy.mockResolvedValue({ test: true });
-    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+    spyOnChromeStorageSyncGet().mockResolvedValueOnce({ test: true });
+
+    await expect(accountFilterStatus.get()).resolves.toBe(false);
   });
 
   test(`GIVEN a query to get accountFilterStatus
@@ -106,9 +107,9 @@ describe('AccountFilterStatus', () => {
         THEN expect get to resolve to false`, async () => {
     const accountFilterStatus = new AccountFilterStatus();
 
-    const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
-    chromeStorageSyncGetSpy.mockResolvedValue(undefined);
-    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+    spyOnChromeStorageSyncGet().mockResolvedValueOnce(undefined);
+
+    await expect(accountFilterStatus.get()).resolves.toBe(false);
   });
 
   test(`GIVEN a query to get accountFilterStatus
@@ -119,7 +120,7 @@ describe('AccountFilterStatus', () => {
 
     const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
 
-    chromeStorageSyncGetSpy.mockResolvedValue({ accountFilterStatus: 'test' });
-    await expect(accountFilterStatus.get()).resolves.toEqual(false);
+    chromeStorageSyncGetSpy.mockResolvedValueOnce({ accountFilterStatus: 'test' });
+    await expect(accountFilterStatus.get()).resolves.toBe(false);
   });
 });
