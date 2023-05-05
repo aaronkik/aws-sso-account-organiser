@@ -25,6 +25,7 @@ export default defineConfig({
     },
   },
   test: {
+    clearMocks: true,
     coverage: {
       exclude: ['**/*.test.{ts,tsx}', '__mocks__/**/*', 'tests/**/*'],
       reporter: ['text', 'html', 'json', 'lcov'],
