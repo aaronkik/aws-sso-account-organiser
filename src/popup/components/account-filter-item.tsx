@@ -1,6 +1,5 @@
 import { Button } from '~/components';
-import { accountFilterStorage } from '~/services/account-filter-storage';
-import { type AccountFilter } from '~/types';
+import { accountFilterStorage, type AccountFilter } from '~/services/account-filter-storage';
 
 interface Props {
   filterItem: AccountFilter;

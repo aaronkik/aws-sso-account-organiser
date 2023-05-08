@@ -2,9 +2,10 @@ import { ChromeStorageSync } from '~/repositories';
 
 const accountFiltersStorageKey = 'accountFilters';
 
-type AccountFilter = {
-  id: string;
+export type AccountFilter = {
+  enabled: boolean;
   filter: string;
+  id: string;
 };
 
 type GetAccountFilterStorage = {
@@ -25,8 +26,9 @@ class AccountFilterStorage {
 
   async add(accountFilterName: AccountFilter['filter']) {
     const newAccountFilter: AccountFilter = {
-      id: crypto.randomUUID(),
+      enabled: true,
       filter: accountFilterName.trim(),
+      id: crypto.randomUUID(),
     };
 
     const accountFilterStorageResult = await this.get();
