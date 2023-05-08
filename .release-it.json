@@ -6,9 +6,7 @@
   "github": {
     "autoGenerate": true
   },
-  "npm": {
-    "publish": false
-  },
+  "npm": false,
   "plugins": {
     "@csmith/release-it-calver-plugin": {
       "format": "yyyy.mm.minor",
