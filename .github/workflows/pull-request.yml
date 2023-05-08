@@ -1,8 +1,6 @@
 name: Pull request
 
-on:
-  pull_request:
-    types: [opened, reopened, edited]
+on: pull_request
 
 jobs:
   build:
