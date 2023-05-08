@@ -6,5 +6,7 @@
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
     }
-  ]
+  ],
+  "schedule": ["after 5pm"],
+  "timezone": "Europe/London"
 }
