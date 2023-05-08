@@ -1,13 +1,11 @@
 import { useForm } from 'react-hook-form';
-import { Input, Button, FormErrorMessage } from '~/components/shared';
+import { Input, Button, FormErrorMessage } from '~/components';
 import { ACCOUNT_FILTER_REQUIRED_MESSAGE } from '~/constants/form';
-import { AccountFilterStorage } from '~/services/account-filter-storage';
+import { accountFilterStorage } from '~/services/account-filter-storage';
 
 type FormValues = {
   accountFilter: string;
 };
-
-const accountFilterStorage = new AccountFilterStorage();
 
 const SaveAccountFilterForm = () => {
   const {
@@ -43,7 +41,22 @@ const SaveAccountFilterForm = () => {
           inputMode='text'
           placeholder='dev'
           type='text'
-          {...register('accountFilter', { required: ACCOUNT_FILTER_REQUIRED_MESSAGE })}
+          {...register('accountFilter', {
+            required: ACCOUNT_FILTER_REQUIRED_MESSAGE,
+            validate: {
+              isValidRegex: (value) => {
+                try {
+                  new RegExp(value, 'u');
+                  return true;
+                } catch (error) {
+                  if (error instanceof SyntaxError) {
+                    return error.message;
+                  }
+                  return `Unknown RegExp error: value=${value}`;
+                }
+              },
+            },
+          })}
         />
         <Button aria-label='Save account filter' className='min-w-[8rem]' type='submit'>
           Save filter

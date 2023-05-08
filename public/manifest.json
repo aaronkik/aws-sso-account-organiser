@@ -3,12 +3,12 @@
   "name": "AWS SSO Account Organiser",
   "version": "1",
   "action": {
-    "default_popup": "src/popup/index.html"
+    "default_popup": "actions/src/popup/index.html"
   },
   "content_scripts": [
     {
       "all_frames": true,
-      "js": ["background.js"],
+      "js": ["background/index.js"],
       "matches": ["https://*.awsapps.com/*"],
       "run_at": "document_end"
     }

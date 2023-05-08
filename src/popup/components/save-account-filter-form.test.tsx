@@ -1,10 +1,10 @@
-import { vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
+import { ACCOUNT_FILTER_REQUIRED_MESSAGE } from '~/constants/form';
+import { accountFilterStorage } from '~/services/account-filter-storage';
 import SaveAccountFilterForm from './save-account-filter-form';
 import { chrome } from '../../../__mocks__/chrome';
-import { ACCOUNT_FILTER_REQUIRED_MESSAGE } from '~/constants/form';
-import { AccountFilterStorage } from '~/services/account-filter-storage';
 
 const initialSetup = () => {
   const user = userEvent.setup();
@@ -33,8 +33,6 @@ describe('SaveAccountFilterForm', () => {
   test('chrome storage does not add a new filter when save filter button submits and the account filter input is empty', async () => {
     const { saveFilterButton, user } = initialSetup();
 
-    const accountFilterStorage = new AccountFilterStorage();
-
     await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
 
     const chromeStorageSetSpy = vi.spyOn(chrome.storage.sync, 'set');
@@ -47,8 +45,6 @@ describe('SaveAccountFilterForm', () => {
 
   test('chrome storage adds the user typed input as a new filter when save filter button submits', async () => {
     const { accountFilterInput, saveFilterButton, user } = initialSetup();
-
-    const accountFilterStorage = new AccountFilterStorage();
 
     await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
 
@@ -70,8 +66,6 @@ describe('SaveAccountFilterForm', () => {
   test('account filter input is cleared after a user has typed an input as a new filter and the save filter button submits', async () => {
     const { accountFilterInput, saveFilterButton, user } = initialSetup();
 
-    const accountFilterStorage = new AccountFilterStorage();
-
     await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
 
     expect(accountFilterInput).toHaveValue('');
@@ -88,8 +82,6 @@ describe('SaveAccountFilterForm', () => {
 
   test('does not add duplicate filter names', async () => {
     const { accountFilterInput, saveFilterButton, user } = initialSetup();
-
-    const accountFilterStorage = new AccountFilterStorage();
 
     await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
 
@@ -114,8 +106,6 @@ describe('SaveAccountFilterForm', () => {
 
   test('adds multiple filter names', async () => {
     const { accountFilterInput, saveFilterButton, user } = initialSetup();
-
-    const accountFilterStorage = new AccountFilterStorage();
 
     await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
 
@@ -143,8 +133,6 @@ describe('SaveAccountFilterForm', () => {
 
   test('removes whitespace from user filter input before saving to storage', async () => {
     const { accountFilterInput, saveFilterButton, user } = initialSetup();
-
-    const accountFilterStorage = new AccountFilterStorage();
 
     await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
 

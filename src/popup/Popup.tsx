@@ -1,9 +1,13 @@
-import { AccountFilterList, SaveAccountFilterForm } from '~/components/popup';
+import {
+  AccountFilterList,
+  AccountFilterStatusToggleButton,
+  SaveAccountFilterForm,
+} from './components';
 
 const Popup = () => {
   return (
-    <>
-      <div className='flex flex-col gap-4 p-4'>
+    <div className='flex h-full max-h-full flex-col gap-2 p-4'>
+      <div className='flex flex-none flex-col gap-4'>
         <div className='mb-3 text-center'>
           <h1 className='text-xl font-medium tracking-wide'>AWS SSO Account Organiser</h1>
           <p className='text-base text-neutral-300/80'>
@@ -13,7 +17,8 @@ const Popup = () => {
         <SaveAccountFilterForm />
       </div>
       <AccountFilterList />
-    </>
+      <AccountFilterStatusToggleButton />
+    </div>
   );
 };
 
