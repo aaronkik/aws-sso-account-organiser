@@ -1,4 +1,4 @@
-import { type AccountFilter } from './account-filter';
+import { type AccountFilter } from '~/services/account-filter-storage';
 
 interface GenericChromeStorageChange<Type> extends chrome.storage.StorageChange {
   newValue?: Type;
