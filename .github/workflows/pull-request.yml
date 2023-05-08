@@ -34,4 +34,4 @@ jobs:
         continue-on-error: true
 
       - name: Create release
-        run: npm run release
+        run: npm run release:ci
