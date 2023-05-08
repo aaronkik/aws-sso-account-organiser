@@ -4,6 +4,7 @@
   "npm": {
     "minimumReleaseAge": "3 days"
   },
+  "rangeStrategy": "bump",
   "schedule": ["after 5pm"],
   "timezone": "Europe/London"
 }
