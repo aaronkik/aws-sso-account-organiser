@@ -4,8 +4,8 @@ import { AccountFilterStorage } from '~/services/account-filter-storage';
 const accountFilterStorage = new AccountFilterStorage();
 
 const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
-  const isEnabled = await accountFilterStatus.get();
-  if (!isEnabled) return;
+  const accountFilterStatusisEnabled = await accountFilterStatus.get();
+  if (!accountFilterStatusisEnabled) return;
 
   for (const { addedNodes } of mutationRecord) {
     for (const addedNode of addedNodes.values()) {
@@ -44,16 +44,23 @@ const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
 
       const { accountFilters } = userStorageAccountFilters;
 
-      const portalInstances = addedNode.querySelectorAll('portal-instance-list > div');
+      let accountFilterRegExes: Array<RegExp>;
 
+      try {
+        accountFilterRegExes = accountFilters.map(({ filter }) => new RegExp(filter, 'u'));
+      } catch (error) {
+        console.error('Error creating RegExp from accountFilters', error);
+        continue;
+      }
+
+      const accountNameMatchesAccountFilterRegExes = (awsAccountName: string) =>
+        accountFilterRegExes.some((accountFilterRegEx) => accountFilterRegEx.test(awsAccountName));
+
+      const portalInstances = addedNode.querySelectorAll('portal-instance-list > div');
       const filteredAwsAccountNodes = Array.from(portalInstances).filter((instance) => {
         const awsAccountName = instance.querySelector('.name')?.textContent;
-
-        const filteredNode = accountFilters.find(({ filter }) =>
-          awsAccountName?.trim().toLowerCase().includes(filter.trim().toLowerCase())
-        );
-
-        return filteredNode;
+        if (!awsAccountName) return false;
+        return accountNameMatchesAccountFilterRegExes(awsAccountName);
       });
 
       portalInstanceList.replaceChildren(...filteredAwsAccountNodes);
