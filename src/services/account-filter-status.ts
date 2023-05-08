@@ -6,7 +6,7 @@ type GetAccountFilterStatus = {
   [accountFiltersStatusKey]?: boolean;
 };
 
-export class AccountFilterStatus {
+class AccountFilterStatus {
   #storageKey = accountFiltersStatusKey;
   #storage = new ChromeStorageSync();
 
@@ -38,3 +38,5 @@ export class AccountFilterStatus {
     return this.#set(false);
   }
 }
+
+export const accountFilterStatus = new AccountFilterStatus();

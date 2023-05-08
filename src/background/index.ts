@@ -1,8 +1,12 @@
+import { accountFilterStatus } from '~/services/account-filter-status';
 import { AccountFilterStorage } from '~/services/account-filter-storage';
 
 const accountFilterStorage = new AccountFilterStorage();
 
 const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
+  const isEnabled = await accountFilterStatus.get();
+  if (!isEnabled) return;
+
   for (const { addedNodes } of mutationRecord) {
     for (const addedNode of addedNodes.values()) {
       const { nodeName } = addedNode;

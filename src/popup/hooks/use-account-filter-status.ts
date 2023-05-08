@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { AccountFilterStatus } from '~/services/account-filter-status';
-
-const accountFilterStatus = new AccountFilterStatus();
+import { accountFilterStatus } from '~/services/account-filter-status';
 
 const useAccountFilterStatus = () => {
   const [status, setStatus] = useState<boolean | null>(null);
@@ -37,7 +35,7 @@ const useAccountFilterStatus = () => {
     }
   }, []);
 
-  return { status: Boolean(status), enable, disable };
+  return { isEnabled: Boolean(status), enable, disable };
 };
 
 export default useAccountFilterStatus;
