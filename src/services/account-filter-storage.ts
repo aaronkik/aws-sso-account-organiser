@@ -11,7 +11,7 @@ type GetAccountFilterStorage = {
   [accountFiltersStorageKey]?: Array<AccountFilter>;
 };
 
-export class AccountFilterStorage {
+class AccountFilterStorage {
   #storageKey = accountFiltersStorageKey;
   #storage = new ChromeStorageSync();
 
@@ -47,3 +47,5 @@ export class AccountFilterStorage {
     return this.set([newAccountFilter, ...filteredDuplicateAccountFilters]);
   }
 }
+
+export const accountFilterStorage = new AccountFilterStorage();

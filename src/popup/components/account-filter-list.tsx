@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { AccountFilter, AccountFilterChromeStorageChange } from '~/types';
-import { AccountFilterStorage } from '~/services/account-filter-storage';
+import { accountFilterStorage } from '~/services/account-filter-storage';
 import AccountFilterItem from './account-filter-item';
-
-const accountFilterStorage = new AccountFilterStorage();
 
 const AccountFilterList = () => {
   const [accountFilters, setAccountFilters] = useState<Array<AccountFilter>>([]);

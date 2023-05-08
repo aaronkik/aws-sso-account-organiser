@@ -1,7 +1,5 @@
 import { accountFilterStatus } from '~/services/account-filter-status';
-import { AccountFilterStorage } from '~/services/account-filter-storage';
-
-const accountFilterStorage = new AccountFilterStorage();
+import { accountFilterStorage } from '~/services/account-filter-storage';
 
 const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
   const accountFilterStatusisEnabled = await accountFilterStatus.get();
@@ -28,7 +26,7 @@ const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
 
       if (!portalInstanceList) continue;
 
-      let userStorageAccountFilters: Awaited<ReturnType<AccountFilterStorage['get']>>;
+      let userStorageAccountFilters: Awaited<ReturnType<(typeof accountFilterStorage)['get']>>;
 
       try {
         userStorageAccountFilters = await accountFilterStorage.get();

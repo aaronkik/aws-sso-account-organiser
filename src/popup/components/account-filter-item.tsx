@@ -1,13 +1,11 @@
 import { Button } from '~/components';
-import { AccountFilterStorage } from '~/services/account-filter-storage';
+import { accountFilterStorage } from '~/services/account-filter-storage';
 import { type AccountFilter } from '~/types';
 
 interface Props {
   filterItem: AccountFilter;
   filterList: Array<AccountFilter>;
 }
-
-const accountFilterStorage = new AccountFilterStorage();
 
 const AccountFilterItem = (props: Props) => {
   const {
