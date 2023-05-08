@@ -12,6 +12,7 @@
     "build:actions": "vite build -c ./vite.actions.config.ts",
     "prebuild": "tsc --noEmit",
     "build": "npm run build:background && npm run build:actions",
+    "lint": "prettier --check . && eslint . --ext .ts,.tsx",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest --watch"
