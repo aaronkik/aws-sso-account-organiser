@@ -29,7 +29,3 @@ jobs:
 
       - name: Upload coverage
         uses: coverallsapp/github-action@v2
-        continue-on-error: true
-
-      - name: Create release
-        run: npm run release:ci
