@@ -16,7 +16,7 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         copy({
-          targets: [{ src: resolve(__dirname, 'public/**/*'), dest: resolve(__dirname, 'dist') }],
+          targets: [{ src: resolve(__dirname, 'public/*'), dest: resolve(__dirname, 'dist') }],
         }),
         react(),
       ],
