@@ -1,6 +1,10 @@
 {
   "json.schemas": [
     {
+      "fileMatch": ["package.json"],
+      "url": "https://json.schemastore.org/package"
+    },
+    {
       "fileMatch": ["public/manifest.json"],
       "url": "https://json.schemastore.org/chrome-manifest.json"
     },
