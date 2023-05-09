@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react';
+import copy from 'rollup-plugin-copy';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 
@@ -11,8 +12,14 @@ export default defineConfig({
     },
   },
   build: {
+    copyPublicDir: false,
     rollupOptions: {
-      plugins: [react({ fastRefresh: false })],
+      plugins: [
+        copy({
+          targets: [{ src: resolve(__dirname, 'public/**/*'), dest: resolve(__dirname, 'dist') }],
+        }),
+        react(),
+      ],
       input: {
         popup: resolve(srcDir, 'popup/index.html'),
       },

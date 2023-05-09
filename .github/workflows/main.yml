@@ -2,7 +2,7 @@ name: Main
 
 on:
   push:
-    branches:    
+    branches:
       - main
 
 jobs:
@@ -21,11 +21,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Lint
+        run: npm run lint
 
       - name: Test
         run: npm run test:coverage
 
       - name: Upload coverage
         uses: coverallsapp/github-action@v2
+
+      - name: Setup Git for release
+        run: |
+          # See https://github.com/orgs/community/discussions/26560#discussioncomment-3252339
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Create release
+        run: npm run release:ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,25 @@
+{
+  "git": {
+    "commitMessage": "Release v${version}",
+    "tagName": "v${version}"
+  },
+  "github": {
+    "autoGenerate": true,
+    "release": true
+  },
+  "hooks": {
+    "before:init": "git fetch --prune --prune-tags origin",
+    "after:bump": "npm run build",
+    "after:release": "echo Successfully released ${name} v${version} in ${repo.repository}."
+  },
+  "npm": false,
+  "plugins": {
+    "@csmith/release-it-calver-plugin": {
+      "format": "yyyy.mm.minor",
+      "increment": "calendar.minor"
+    },
+    "@release-it/bumper": {
+      "out": ["package.json", "./public/manifest.json"]
+    }
+  }
+}
