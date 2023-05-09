@@ -1,6 +1,6 @@
 {
   "name": "aws-sso-account-organiser",
-  "version": "2023.05.0",
+  "version": "2023.0.0",
   "author": "Aaron Kikabhai",
   "description": "Browser extension that helps organise multiple AWS SSO accounts",
   "license": "MIT",
