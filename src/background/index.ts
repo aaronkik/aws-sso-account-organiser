@@ -45,7 +45,7 @@ const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
       let accountFilterRegExes: Array<RegExp>;
 
       try {
-        accountFilterRegExes = accountFilters.map(({ filter }) => new RegExp(filter, 'u'));
+        accountFilterRegExes = accountFilters.map(({ filter }) => new RegExp(filter, 'iu'));
       } catch (error) {
         console.error('Error creating RegExp from accountFilters', error);
         continue;
