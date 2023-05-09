@@ -8,16 +8,10 @@
   "content_scripts": [
     {
       "all_frames": true,
-      "js": [
-        "background/index.js"
-      ],
-      "matches": [
-        "https://*.awsapps.com/*"
-      ],
+      "js": ["background/index.js"],
+      "matches": ["https://*.awsapps.com/*"],
       "run_at": "document_end"
     }
   ],
-  "permissions": [
-    "storage"
-  ]
+  "permissions": ["storage"]
 }
