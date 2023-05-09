@@ -14,6 +14,10 @@
   },
   "npm": false,
   "plugins": {
+    "@csmith/release-it-calver-plugin": {
+      "format": "yyyy.mm.minor",
+      "increment": "calendar.minor"
+    },
     "@release-it/bumper": {
       "out": ["./public/manifest.json"]
     }
