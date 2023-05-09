@@ -15,7 +15,7 @@
   "npm": false,
   "plugins": {
     "@release-it/bumper": {
-      "out": ["./public/manifest.json"]
+      "out": ["./package.json", "./public/manifest.json"]
     }
   }
 }
