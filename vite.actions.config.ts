@@ -12,7 +12,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      plugins: [react({ fastRefresh: false })],
+      plugins: [react()],
       input: {
         popup: resolve(srcDir, 'popup/index.html'),
       },
