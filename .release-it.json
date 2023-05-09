@@ -6,6 +6,10 @@
   "github": {
     "autoGenerate": true
   },
+  "hooks": {
+    "after:bump": "npm run build",
+    "after:release": "echo Successfully released ${name} v${version} in ${repo.repository}."
+  },
   "npm": false,
   "plugins": {
     "@csmith/release-it-calver-plugin": {

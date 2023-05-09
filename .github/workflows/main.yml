@@ -24,20 +24,17 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Build
-        run: npm run build
-
       - name: Test
         run: npm run test:coverage
 
       - name: Upload coverage
         uses: coverallsapp/github-action@v2
-        continue-on-error: true
 
-      - name: Git config
+      - name: Setup Git for release
         run: |
-          git config user.name "${GITHUB_ACTOR}"
-          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          # See https://github.com/orgs/community/discussions/26560#discussioncomment-3252339
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Create release
         run: npm run release:ci
