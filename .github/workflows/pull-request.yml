@@ -34,4 +34,5 @@ jobs:
         with:
           name: aws-sso-account-filter-web-extension-${{ github.run_id }}
           path: dist/
+          retention-days: 14
           if-no-files-found: error
