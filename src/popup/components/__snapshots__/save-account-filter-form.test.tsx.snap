@@ -11,7 +11,7 @@ exports[`SaveAccountFilterForm > matches snapshot 1`] = `
       class="flex gap-4"
     >
       <div
-        class="relative"
+        class="relative w-full"
       >
         <div
           class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"

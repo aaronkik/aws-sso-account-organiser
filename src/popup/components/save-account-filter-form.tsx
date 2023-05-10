@@ -36,7 +36,7 @@ const SaveAccountFilterForm = () => {
       onSubmit={saveAccountFilter}
     >
       <div className='flex gap-4'>
-        <div className='relative'>
+        <div className='relative w-full'>
           <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
             <span className='text-lg font-medium text-slate-500'>/</span>
           </div>
