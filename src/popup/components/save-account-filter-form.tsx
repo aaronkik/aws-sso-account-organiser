@@ -36,28 +36,37 @@ const SaveAccountFilterForm = () => {
       onSubmit={saveAccountFilter}
     >
       <div className='flex gap-4'>
-        <Input
-          aria-label='Account filter input'
-          inputMode='text'
-          placeholder='dev'
-          type='text'
-          {...register('accountFilter', {
-            required: ACCOUNT_FILTER_REQUIRED_MESSAGE,
-            validate: {
-              isValidRegex: (value) => {
-                try {
-                  new RegExp(value, 'u');
-                  return true;
-                } catch (error) {
-                  if (error instanceof SyntaxError) {
-                    return error.message;
+        <div className='relative'>
+          <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
+            <span className='text-lg font-medium text-slate-500'>/</span>
+          </div>
+          <Input
+            aria-label='Account filter input'
+            className='px-6'
+            inputMode='text'
+            placeholder='team-(sandbox|dev)'
+            type='text'
+            {...register('accountFilter', {
+              required: ACCOUNT_FILTER_REQUIRED_MESSAGE,
+              validate: {
+                isValidRegex: (value) => {
+                  try {
+                    new RegExp(value, 'u');
+                    return true;
+                  } catch (error) {
+                    if (error instanceof SyntaxError) {
+                      return error.message;
+                    }
+                    return `Unknown RegExp error: value=${value}`;
                   }
-                  return `Unknown RegExp error: value=${value}`;
-                }
+                },
               },
-            },
-          })}
-        />
+            })}
+          />
+          <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3'>
+            <span className='text-lg font-medium text-slate-500'>/</span>
+          </div>
+        </div>
         <Button aria-label='Save account filter' className='min-w-[8rem]' type='submit'>
           Save filter
         </Button>
