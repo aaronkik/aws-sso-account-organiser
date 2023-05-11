@@ -47,9 +47,12 @@ jobs:
           retention-days: 90
           if-no-files-found: error
 
+      - name: Compress dist for release
+        run: zip -r aws-sso-account-filter-web-extension-${{ steps.tag.outputs.release_tag }}.zip dist
+
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
-          files: dist/**/*
+          files: aws-sso-account-filter-web-extension-${{ steps.tag.outputs.release_tag }}.zip
           generate_release_notes: true
