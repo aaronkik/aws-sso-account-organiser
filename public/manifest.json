@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "AWS SSO Account Organiser",
-  "version": "0.0.1",
+  "name": "AWS SSO Account Filter",
+  "description": "Browser extension that helps organise multiple AWS SSO accounts via custom regex filters",
+  "version": "2023.2.0",
   "action": {
-    "default_popup": "actions/src/popup/index.html"
+    "default_popup": "src/popup/index.html"
   },
   "content_scripts": [
     {
@@ -17,6 +18,13 @@
       "run_at": "document_end"
     }
   ],
+  "homepage_url": "https://github.com/aaronkik/aws-sso-account-filter",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "permissions": [
     "storage"
   ]

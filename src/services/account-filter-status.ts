@@ -19,10 +19,16 @@ class AccountFilterStatus {
       this.#storage
         .get<GetAccountFilterStatus>(this.#storageKey)
         .then((result) => {
-          if (!result) return resolve(false);
-          if (!('accountFilterStatus' in result)) return resolve(false);
-          if (typeof result.accountFilterStatus !== 'boolean') return resolve(false);
-          resolve(result.accountFilterStatus);
+          if (
+            result &&
+            'accountFilterStatus' in result &&
+            typeof result.accountFilterStatus === 'boolean'
+          ) {
+            resolve(result.accountFilterStatus);
+          } else {
+            this.enable();
+            resolve(true);
+          }
         })
         .catch((error) => {
           reject(error);

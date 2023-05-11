@@ -29,3 +29,10 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: aws-sso-account-filter-web-extension-${{ github.run_id }}
+          path: dist/
+          retention-days: 14
+          if-no-files-found: error

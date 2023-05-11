@@ -15,7 +15,7 @@ export default defineConfig({
       input: resolve(srcDir, 'background/index.ts'),
       output: {
         dir: resolve(__dirname, 'dist/background'),
-        entryFileNames: (chunk) => `${chunk.name}.js`,
+        entryFileNames: '[name].js',
         inlineDynamicImports: true,
       },
     },

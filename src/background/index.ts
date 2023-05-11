@@ -1,5 +1,9 @@
 import { accountFilterStatus } from '~/services/account-filter-status';
 import { accountFilterStorage } from '~/services/account-filter-storage';
+import type {
+  AccountFilterChromeStorageChange,
+  AccountFilterStatusChromeStorageChange,
+} from '~/types';
 
 const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
   const accountFilterStatusisEnabled = await accountFilterStatus.get();
@@ -45,7 +49,7 @@ const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
       let accountFilterRegExes: Array<RegExp>;
 
       try {
-        accountFilterRegExes = accountFilters.map(({ filter }) => new RegExp(filter, 'u'));
+        accountFilterRegExes = accountFilters.map(({ filter }) => new RegExp(filter, 'iu'));
       } catch (error) {
         console.error('Error creating RegExp from accountFilters', error);
         continue;
@@ -67,3 +71,26 @@ const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
 });
 
 documentBodyObserver.observe(document.body, { childList: true, subtree: true });
+
+const onChange = async (
+  changes:
+    | chrome.storage.StorageChange
+    | AccountFilterChromeStorageChange
+    | AccountFilterStatusChromeStorageChange
+) => {
+  if (!('accountFilterStatus' in changes || 'accountFilters' in changes)) return;
+
+  const awsPortalAppSelected = document.querySelector(
+    'portal-application[title="AWS Account"].selected'
+  );
+  console.log('awsPortalAppSelected', awsPortalAppSelected);
+
+  if (awsPortalAppSelected instanceof HTMLElement) {
+    /** dblClick event doesn't work 🤔 */
+    const clickEvent = new MouseEvent('click');
+    awsPortalAppSelected.dispatchEvent(clickEvent);
+    awsPortalAppSelected.dispatchEvent(clickEvent);
+  }
+};
+
+chrome.storage.onChanged.addListener(onChange);
