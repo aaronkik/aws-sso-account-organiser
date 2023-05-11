@@ -1,20 +1,5 @@
 {
-  "git": {
-    "commitMessage": "Release v${version}",
-    "tagName": "v${version}"
-  },
-  "github": {
-    "autoGenerate": true,
-    "release": true
-  },
-  "hooks": {
-    "after:bump": "npm run build",
-    "after:release": "echo Successfully released ${name} v${version} in ${repo.repository}."
-  },
-  "npm": {
-    "publish": false,
-    "ignoreVersion": true
-  },
+  "npm": false,
   "plugins": {
     "@release-it/bumper": {
       "out": ["./package.json", "./public/manifest.json"]

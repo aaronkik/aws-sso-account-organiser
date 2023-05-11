@@ -30,13 +30,19 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@v2
 
-      - name: Setup Git for release
-        run: |
-          # See https://github.com/orgs/community/discussions/26560#discussioncomment-3252339
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Build
+        run: npm run build
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: aws-sso-account-filter-web-extension-${{ github.run_id }}
+          path: dist/
+          retention-days: 14
+          if-no-files-found: error
 
       - name: Create release
-        run: npm run release:ci
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: dist/
+          generate_release_notes: true
