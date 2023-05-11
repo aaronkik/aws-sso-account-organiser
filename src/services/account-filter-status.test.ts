@@ -38,23 +38,14 @@ describe('accountFilterStatus', () => {
 
   test(`GIVEN a query to get accountFilterStatus
         WHEN chrome storage is empty
-        THEN expect get to resolve to false`, async () => {
+        THEN expect get to resolve to true`, async () => {
     spyOnChromeStorageSyncGet().mockResolvedValueOnce({});
 
-    await expect(accountFilterStatus.get()).resolves.toBe(false);
-  });
-
-  test(`GIVEN accountFilterStatus is enabled
-        THEN expect get to resolve to true`, async () => {
-    await expect(accountFilterStatus.get()).resolves.toBe(false);
-    await accountFilterStatus.enable();
     await expect(accountFilterStatus.get()).resolves.toBe(true);
   });
 
   test(`GIVEN accountFilterStatus is disabled after being enabled
         THEN expect get to resolve to false`, async () => {
-    await expect(accountFilterStatus.get()).resolves.toBe(false);
-    await accountFilterStatus.enable();
     await expect(accountFilterStatus.get()).resolves.toBe(true);
     await accountFilterStatus.disable();
     await expect(accountFilterStatus.get()).resolves.toBe(false);
@@ -64,41 +55,36 @@ describe('accountFilterStatus', () => {
         WHEN chrome storage throws an error
         THEN expect get to reject with the error`, async () => {
     spyOnChromeStorageSyncGet().mockRejectedValueOnce(new Error('test error'));
-
     await expect(accountFilterStatus.get()).rejects.toThrowError('test error');
   });
 
   test(`GIVEN a query to get accountFilterStatus
         WHEN chrome storage returns an empty object
-        THEN expect get to resolve to false`, async () => {
+        THEN expect get to resolve to true`, async () => {
     spyOnChromeStorageSyncGet().mockResolvedValueOnce({});
-
-    await expect(accountFilterStatus.get()).resolves.toBe(false);
+    await expect(accountFilterStatus.get()).resolves.toBe(true);
   });
 
   test(`GIVEN a query to get accountFilterStatus
         WHEN chrome storage returns an object with a key that is not accountFilterStatus
-        THEN expect get to resolve to false`, async () => {
+        THEN expect get to resolve to true`, async () => {
     spyOnChromeStorageSyncGet().mockResolvedValueOnce({ test: true });
-
-    await expect(accountFilterStatus.get()).resolves.toBe(false);
+    await expect(accountFilterStatus.get()).resolves.toBe(true);
   });
 
   test(`GIVEN a query to get accountFilterStatus
-        WHEN chrome storage returns nothing
-        THEN expect get to resolve to false`, async () => {
+        WHEN chrome storage returns undefined
+        THEN expect get to resolve to true`, async () => {
     spyOnChromeStorageSyncGet().mockResolvedValueOnce(undefined);
-
-    await expect(accountFilterStatus.get()).resolves.toBe(false);
+    await expect(accountFilterStatus.get()).resolves.toBe(true);
   });
 
   test(`GIVEN a query to get accountFilterStatus
         WHEN chrome storage returns an object with a key that is accountFilterStatus
         AND the value is not a boolean
-        THEN expect get to resolve to false`, async () => {
+        THEN expect get to resolve to true`, async () => {
     const chromeStorageSyncGetSpy = spyOnChromeStorageSyncGet();
-
     chromeStorageSyncGetSpy.mockResolvedValueOnce({ accountFilterStatus: 'test' });
-    await expect(accountFilterStatus.get()).resolves.toBe(false);
+    await expect(accountFilterStatus.get()).resolves.toBe(true);
   });
 });
