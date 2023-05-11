@@ -36,7 +36,7 @@ jobs:
         run: npm run build
 
       - name: Create release tag
-        run: echo "release_tag=v$(date + "%Y.%m.%d%H%M")" >> $GITHUB_OUTPUT
+        run: echo "release_tag=v$(date + '%Y.%m.%d%H%M')" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
