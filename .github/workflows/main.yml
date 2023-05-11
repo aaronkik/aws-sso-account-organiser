@@ -48,7 +48,9 @@ jobs:
           if-no-files-found: error
 
       - name: Compress dist for release
-        run: zip -r aws-sso-account-filter-web-extension-${{ steps.tag.outputs.release_tag }}.zip dist
+        run: |
+          cd dist
+          zip -r ../aws-sso-account-filter-web-extension-${{ steps.tag.outputs.release_tag }}.zip .
 
       - name: Create release
         uses: softprops/action-gh-release@v1
