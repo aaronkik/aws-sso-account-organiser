@@ -12,7 +12,10 @@
     "after:bump": "npm run build",
     "after:release": "echo Successfully released ${name} v${version} in ${repo.repository}."
   },
-  "npm": false,
+  "npm": {
+    "publish": false,
+    "ignoreVersion": true
+  },
   "plugins": {
     "@release-it/bumper": {
       "out": ["./package.json", "./public/manifest.json"]
