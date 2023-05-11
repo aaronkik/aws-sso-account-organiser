@@ -30,7 +30,7 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@v2
 
-      - name: Setup Git for release
+      - name: Setup Git for  release
         run: |
           # See https://github.com/orgs/community/discussions/26560#discussioncomment-3252339
           git config user.name "github-actions[bot]"
