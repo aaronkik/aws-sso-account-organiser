@@ -61,8 +61,7 @@ jobs:
       - name: Commit ammended files with release tag
         run: |
           git status
-          git add . --update
-          git commit --message Release v${{ steps.tag.outputs.release_tag }}
+          git commit --all --message "Release v${{ steps.tag.outputs.release_tag }}"
           git push
 
       - name: Compress dist for release
