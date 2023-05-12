@@ -1,8 +1,0 @@
-{
-  "npm": false,
-  "plugins": {
-    "@release-it/bumper": {
-      "out": ["./package.json", "./public/manifest.json"]
-    }
-  }
-}
