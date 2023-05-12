@@ -37,9 +37,9 @@ jobs:
       - name: Write release tag to files
         run: |
           echo Writing release tag to package.json
-          cat package.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee package.json
+          cat package.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee package.json >/dev/null
           echo Writing release tag to public/manifest.json
-          cat public/manifest.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee public/manifest.json
+          cat public/manifest.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee public/manifest.json >/dev/null
 
       - name: Build
         run: npm run build
