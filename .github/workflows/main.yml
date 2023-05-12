@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v*.*.*'
 
 jobs:
   build:
@@ -32,29 +30,49 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@v2
 
-      - name: Build
-        run: npm run build
-
       - name: Create release tag
         id: tag
-        run: echo "release_tag=v$(date +"%Y.%m.%d%H%M")" >> $GITHUB_OUTPUT
+        run: echo "release_tag=$(date +"%Y.%m.%d%H%M")" >> $GITHUB_OUTPUT
+
+      - name: Write release tag to files
+        run: |
+          echo Writing release tag to package.json
+          cat ./package.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee package.json >/dev/null
+          echo Writing release tag to public/manifest.json
+          cat ./public/manifest.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee ./public/manifest.json >/dev/null
+
+      - name: Build
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: aws-sso-account-filter-web-extension-${{ steps.tag.outputs.release_tag }}
+          name: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}
           path: dist/
           retention-days: 90
           if-no-files-found: error
 
+      - name: Setup Git User
+        run: |
+          # See https://github.com/orgs/community/discussions/26560#discussioncomment-3252339
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit ammended files with release tag
+        run: |
+          git status
+          git add . --update
+          git commit --message Release v${{ steps.tag.outputs.release_tag }}
+          git push
+
       - name: Compress dist for release
         run: |
           cd dist
-          zip -r ../aws-sso-account-filter-web-extension-${{ steps.tag.outputs.release_tag }}.zip .
+          zip -r ../aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}.zip .
 
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.tag.outputs.release_tag }}
-          files: aws-sso-account-filter-web-extension-${{ steps.tag.outputs.release_tag }}.zip
+          tag_name: v${{ steps.tag.outputs.release_tag }}
+          files: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}.zip
           generate_release_notes: true
