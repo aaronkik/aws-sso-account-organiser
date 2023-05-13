@@ -59,11 +59,11 @@ jobs:
       #     retention-days: 90
       #     if-no-files-found: error
 
-      # - name: Setup Git User
-      #   run: |
-      #     # See https://github.com/orgs/community/discussions/26560#discussioncomment-3252339
-      #     git config user.name "github-actions[bot]"
-      #     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Setup Git User
+        run: |
+          # See https://github.com/orgs/community/discussions/26560#discussioncomment-3252339
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       # - name: Commit ammended files with release tag
       #   run: |
