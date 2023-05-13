@@ -40,7 +40,7 @@ jobs:
       - name: Write release tag to files
         run: |
           echo Writing release tag to package.json
-          jq '.version |= "${{ steps.tag.outputs.release_tag }}"' package.json | tee tmp-package.json.json && mv tmp-package.json.json package.json.json
+          jq '.version |= "${{ steps.tag.outputs.release_tag }}"' package.json | tee tmp-package.json && mv tmp-package.json package.json
           echo Writing release tag to public/manifest.json
           jq '.version |= "${{ steps.tag.outputs.release_tag }}"' public/manifest.json | tee public/tmp-manifest.json && mv public/tmp-manifest.json public/manifest.json
 
