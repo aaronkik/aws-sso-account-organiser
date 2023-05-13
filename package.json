@@ -1,6 +1,6 @@
 {
   "name": "aws-sso-account-filter",
-  "version": "0.0.3",
+  "version": "2023.05.122300",
   "author": "Aaron Kikabhai",
   "description": "A browser extension that helps organise multiple AWS SSO accounts via custom regex filters",
   "license": "MIT",
@@ -14,7 +14,6 @@
     "build": "npm run build:actions && npm run build:background",
     "local:clean:build": "rm -rf ./dist && npm run build",
     "lint": "prettier --check . && eslint . --ext .ts,.tsx",
-    "release:ci": "release-it --no-npm --ci",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest --watch"
@@ -27,7 +26,6 @@
     "tailwind-merge": "^1.12.0"
   },
   "devDependencies": {
-    "@release-it/bumper": "^4.0.2",
     "@tailwindcss/forms": "^0.5.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
@@ -53,7 +51,6 @@
     "postcss": "^8.4.23",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
-    "release-it": "^15.10.3",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4",
     "vite": "^4.3.5",
