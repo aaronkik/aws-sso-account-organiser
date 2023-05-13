@@ -1,31 +1,31 @@
-{
-  "manifest_version": 3,
-  "name": "AWS SSO Account Filter",
-  "description": "Browser extension that helps organise multiple AWS SSO accounts via custom regex filters",
-  "version": "2023.05.122257",
-  "action": {
-    "default_popup": "src/popup/index.html"
-  },
-  "content_scripts": [
-    {
-      "all_frames": true,
-      "js": [
-        "background/index.js"
-      ],
-      "matches": [
-        "https://*.awsapps.com/*"
-      ],
-      "run_at": "document_end"
-    }
-  ],
-  "homepage_url": "https://github.com/aaronkik/aws-sso-account-filter",
-  "icons": {
-    "16": "icons/icon16.png",
-    "32": "icons/icon32.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
-  },
-  "permissions": [
-    "storage"
-  ]
-}
+[1;39m{
+  [0m[34;1m"manifest_version"[0m[1;39m: [0m[0;39m3[0m[1;39m,
+  [0m[34;1m"name"[0m[1;39m: [0m[0;32m"AWS SSO Account Filter"[0m[1;39m,
+  [0m[34;1m"description"[0m[1;39m: [0m[0;32m"Browser extension that helps organise multiple AWS SSO accounts via custom regex filters"[0m[1;39m,
+  [0m[34;1m"version"[0m[1;39m: [0m[0;32m"2023.05.131703"[0m[1;39m,
+  [0m[34;1m"action"[0m[1;39m: [0m[1;39m{
+    [0m[34;1m"default_popup"[0m[1;39m: [0m[0;32m"src/popup/index.html"[0m[1;39m
+  [1;39m}[0m[1;39m,
+  [0m[34;1m"content_scripts"[0m[1;39m: [0m[1;39m[
+    [1;39m{
+      [0m[34;1m"all_frames"[0m[1;39m: [0m[0;39mtrue[0m[1;39m,
+      [0m[34;1m"js"[0m[1;39m: [0m[1;39m[
+        [0;32m"background/index.js"[0m[1;39m
+      [1;39m][0m[1;39m,
+      [0m[34;1m"matches"[0m[1;39m: [0m[1;39m[
+        [0;32m"https://*.awsapps.com/*"[0m[1;39m
+      [1;39m][0m[1;39m,
+      [0m[34;1m"run_at"[0m[1;39m: [0m[0;32m"document_end"[0m[1;39m
+    [1;39m}[0m[1;39m
+  [1;39m][0m[1;39m,
+  [0m[34;1m"homepage_url"[0m[1;39m: [0m[0;32m"https://github.com/aaronkik/aws-sso-account-filter"[0m[1;39m,
+  [0m[34;1m"icons"[0m[1;39m: [0m[1;39m{
+    [0m[34;1m"16"[0m[1;39m: [0m[0;32m"icons/icon16.png"[0m[1;39m,
+    [0m[34;1m"32"[0m[1;39m: [0m[0;32m"icons/icon32.png"[0m[1;39m,
+    [0m[34;1m"48"[0m[1;39m: [0m[0;32m"icons/icon48.png"[0m[1;39m,
+    [0m[34;1m"128"[0m[1;39m: [0m[0;32m"icons/icon128.png"[0m[1;39m
+  [1;39m}[0m[1;39m,
+  [0m[34;1m"permissions"[0m[1;39m: [0m[1;39m[
+    [0;32m"storage"[0m[1;39m
+  [1;39m][0m[1;39m
+[1;39m}[0m
