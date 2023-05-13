@@ -56,13 +56,13 @@ jobs:
       - name: Build
         run: npm run build
 
-      # - name: Upload artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}
-      #     path: dist/
-      #     retention-days: 90
-      #     if-no-files-found: error
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}
+          path: dist/
+          retention-days: 90
+          if-no-files-found: error
 
       # - name: Commit ammended files with release tag
       #   run: |
