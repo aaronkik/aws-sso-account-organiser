@@ -12,11 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Git User
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -25,24 +20,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Create release tag
-        id: tag
-        run: echo "release_tag=$(date +"%Y.%m.%d%H%M")" >> $GITHUB_OUTPUT
-
-      - name: Debug
-        run: |
-          echo package.json
-          cat package.json
-          echo public/manifest.json
-          cat public/manifest.json
-
-      - name: Write release tag to files
-        run: |
-          echo Writing release tag to package.json
-          cat package.json | jq --color-output '.version = "${{ steps.tag.outputs.release_tag }}"' | tee tmp-package.json && mv tmp-package.json package.json            
-          echo Writing release tag to public/manifest.json
-          cat public/manifest.json | jq --color-output '.version = "${{ steps.tag.outputs.release_tag }}"' public/manifest.json | tee public/tmp-manifest.json && mv public/tmp-manifest.json public/manifest.json
 
       - name: Lint
         run: npm run lint
@@ -56,13 +33,19 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: My backup step
-        if: ${{ failure() }}
+      - name: Create release tag
+        id: tag
+        run: echo "release_tag=$(date +"%Y.%m.%d%H%M")" >> $GITHUB_OUTPUT
+
+      - name: Debug
         run: |
-          echo failure package.json
-          cat package.json
-          echo failure public/manifest.json
+          echo public/manifest.json
           cat public/manifest.json
+
+      - name: Write release tag to files
+        run: |
+          echo Writing release tag to public/manifest.json
+          jq --color-output '.version = "${{ steps.tag.outputs.release_tag }}"' public/manifest.json | tee public/tmp-manifest.json && mv public/tmp-manifest.json public/manifest.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -72,7 +55,12 @@ jobs:
           retention-days: 90
           if-no-files-found: error
 
-      # - name: Commit ammended files with release tag
+          # - name: Setup Git User
+          # run: |
+          #   git config user.name "github-actions[bot]"
+          #   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # - name: Commit ammended files with release tag
       #   run: |
       #     git status
       #     git commit --all --message "Release v${{ steps.tag.outputs.release_tag }}"
@@ -80,8 +68,6 @@ jobs:
 
       - name: Debug
         run: |
-          echo package.json
-          cat package.json
           echo public/manifest.json
           cat public/manifest.json
 
