@@ -34,6 +34,13 @@ jobs:
         id: tag
         run: echo "release_tag=$(date +"%Y.%m.%d%H%M")" >> $GITHUB_OUTPUT
 
+      - name: Debug
+        run: |
+          echo package.json
+          cat package.json
+          echo public/manifest.json
+          cat public/manifest.json
+
       - name: Write release tag to files
         run: |
           echo Writing release tag to package.json
