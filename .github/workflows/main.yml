@@ -64,6 +64,13 @@ jobs:
           git commit --all --message "Release v${{ steps.tag.outputs.release_tag }}"
           git push
 
+      - name: Debug
+        run: |
+          echo package.json
+          cat package.json
+          echo public/manifest.json
+          cat public/manifest.json
+
       - name: Compress dist for release
         run: |
           cd dist
