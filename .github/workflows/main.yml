@@ -37,32 +37,32 @@ jobs:
       - name: Write release tag to files
         run: |
           echo Writing release tag to package.json
-          cat package.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee package.json >/dev/null
+          cat package.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee package.json
           echo Writing release tag to public/manifest.json
-          cat public/manifest.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee public/manifest.json >/dev/null
+          cat public/manifest.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee public/manifest.json
 
       - name: Build
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}
-          path: dist/
-          retention-days: 90
-          if-no-files-found: error
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}
+      #     path: dist/
+      #     retention-days: 90
+      #     if-no-files-found: error
 
-      - name: Setup Git User
-        run: |
-          # See https://github.com/orgs/community/discussions/26560#discussioncomment-3252339
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      # - name: Setup Git User
+      #   run: |
+      #     # See https://github.com/orgs/community/discussions/26560#discussioncomment-3252339
+      #     git config user.name "github-actions[bot]"
+      #     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit ammended files with release tag
-        run: |
-          git status
-          git commit --all --message "Release v${{ steps.tag.outputs.release_tag }}"
-          git push
+      # - name: Commit ammended files with release tag
+      #   run: |
+      #     git status
+      #     git commit --all --message "Release v${{ steps.tag.outputs.release_tag }}"
+      #     git push
 
       - name: Debug
         run: |
@@ -71,14 +71,14 @@ jobs:
           echo public/manifest.json
           cat public/manifest.json
 
-      - name: Compress dist for release
-        run: |
-          cd dist
-          zip -r ../aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}.zip .
+      # - name: Compress dist for release
+      #   run: |
+      #     cd dist
+      #     zip -r ../aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}.zip .
 
-      - name: Create release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: v${{ steps.tag.outputs.release_tag }}
-          files: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}.zip
-          generate_release_notes: true
+      # - name: Create release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     tag_name: v${{ steps.tag.outputs.release_tag }}
+      #     files: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}.zip
+      #     generate_release_notes: true
