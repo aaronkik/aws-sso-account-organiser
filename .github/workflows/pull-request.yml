@@ -1,6 +1,6 @@
 name: Pull request
 
-on: [pull_request, workflow_dispatch]
+on: pull_request
 
 jobs:
   build:
@@ -9,48 +9,30 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Create release tag
-        id: tag
-        run: echo "release_tag=$(date +"%Y.%m.%d%H%M")" >> $GITHUB_OUTPUT
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
 
-      - name: Write release tag to files
-        run: |
-          echo Writing release tag to package.json
-          cat package.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee package.json >/dev/null
-          echo Writing release tag to public/manifest.json
-          cat public/manifest.json | jq '.version |= "${{ steps.tag.outputs.release_tag }}"' | tee public/manifest.json >/dev/null
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Debug
-        run: |
-          echo package.json
-          cat package.json
-          echo public/manifest.json
-          cat public/manifest.json
+      - name: Lint
+        run: npm run lint
 
-        # - name: Setup Node.js
-        #   uses: actions/setup-node@v3
-        #   with:
-        #     node-version: 18.x
-        #     cache: 'npm'
+      - name: Test
+        run: npm run test:coverage
 
-        # - name: Install dependencies
-        #   run: npm ci
+      - name: Upload coverage
+        uses: coverallsapp/github-action@v2
 
-        # - name: Lint
-        #   run: npm run lint
+      - name: Build
+        run: npm run build
 
-        # - name: Test
-        #   run: npm run test:coverage
-
-        # - name: Upload coverage
-        #   uses: coverallsapp/github-action@v2
-
-        # - name: Build
-        #   run: npm run build
-
-        # - uses: actions/upload-artifact@v3
-        #   with:
-        #     name: aws-sso-account-filter-web-extension-${{ github.run_id }}
-        #     path: dist/
-        #     retention-days: 14
-        #     if-no-files-found: error
+      - uses: actions/upload-artifact@v3
+        with:
+          name: aws-sso-account-filter-web-extension-${{ github.run_id }}
+          path: dist/
+          retention-days: 14
+          if-no-files-found: error
