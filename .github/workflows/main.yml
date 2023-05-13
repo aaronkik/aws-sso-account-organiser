@@ -45,7 +45,7 @@ jobs:
       - name: Write release tag to files
         run: |
           echo Writing release tag to public/manifest.json
-          cat public/manifest.json | jq --color-output '.version = "${{ steps.tag.outputs.release_tag }}"' | tee public/tmp-manifest.json && mv public/tmp-manifest.json public/manifest.json
+          cat public/manifest.json | jq '.version = "${{ steps.tag.outputs.release_tag }}"' | tee public/tmp-manifest.json && mv public/tmp-manifest.json public/manifest.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
