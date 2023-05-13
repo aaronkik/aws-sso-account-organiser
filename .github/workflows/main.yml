@@ -37,15 +37,12 @@ jobs:
         id: tag
         run: echo "release_tag=$(date +"%Y.%m.%d%H%M")" >> $GITHUB_OUTPUT
 
-      - name: Debug
-        run: |
-          echo public/manifest.json
-          cat public/manifest.json
-
       - name: Write release tag to files
         run: |
+          echo Writing release tag to package.json
+          jq '.version |= "${{ steps.tag.outputs.release_tag }}"' package.json | tee tmp-package.json.json && mv tmp-package.json.json package.json.json
           echo Writing release tag to public/manifest.json
-          cat public/manifest.json | jq '.version = "${{ steps.tag.outputs.release_tag }}"' | tee public/tmp-manifest.json && mv public/tmp-manifest.json public/manifest.json
+          jq '.version |= "${{ steps.tag.outputs.release_tag }}"' public/manifest.json | tee public/tmp-manifest.json && mv public/tmp-manifest.json public/manifest.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
@@ -63,7 +60,7 @@ jobs:
       - name: Commit ammended files with release tag
         run: |
           git status
-          git commit --all --message "Release v${{ steps.tag.outputs.release_tag }}"
+          git commit --all --message "🤖 Release v${{ steps.tag.outputs.release_tag }}"
           git push
 
       - name: Compress dist for release
