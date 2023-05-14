@@ -6,6 +6,8 @@
 
 AWS SSO Account Filter is a browser extension that filters out AWS accounts you don't care about.
 
+Enter valid JS flavoured regex in the input field to view the accounts you're interested in. Your regex can be as simple as `dev` or something more complex.
+
 Download the latest release [here](https://github.com/aaronkik/aws-sso-account-filter/releases/latest) or head over to the [release page](https://github.com/aaronkik/aws-sso-account-filter/releases).
 
 ## Running Locally
@@ -38,4 +40,16 @@ Run the following script:
   npm run build
 ```
 
-Which will create an output to the `dist` folder which you can use to import the extension to your browser.
+Which will create an output to the root of the project under the `dist` folder which you can use to import the extension to your browser of choice.
+
+## Tech Stack
+
+- React
+- TypeScript
+- Tailwind CSS
+- Vite
+- Vitest
+
+## Acknowledgements
+
+- Background script inspired by - <https://github.com/axeleroy/aws-sso-auto-expand-accounts>
