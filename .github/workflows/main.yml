@@ -36,7 +36,7 @@ jobs:
 
       - name: Create release tag
         id: tag
-        run: echo "release_tag=$(date +"%Y.%m.%d%H%M")" >> $GITHUB_OUTPUT
+        run: echo "release_tag=$(date +"%Y.%m.%d.%H%M")" >> $GITHUB_OUTPUT
 
       - name: Write release tag to files
         run: |
