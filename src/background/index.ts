@@ -83,7 +83,6 @@ const onChange = async (
   const awsPortalAppSelected = document.querySelector(
     'portal-application[title="AWS Account"].selected'
   );
-  console.log('awsPortalAppSelected', awsPortalAppSelected);
 
   if (awsPortalAppSelected instanceof HTMLElement) {
     /** dblClick event doesn't work 🤔 */
