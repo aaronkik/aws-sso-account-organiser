@@ -34,9 +34,6 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@v2
 
-      - name: Build
-        run: npm run build
-
       - name: Create release tag
         id: tag
         run: echo "release_tag=$(date +"%Y.%m.%d%H%M")" >> $GITHUB_OUTPUT
@@ -47,6 +44,9 @@ jobs:
           jq '.version |= "${{ steps.tag.outputs.release_tag }}"' package.json | tee tmp-package.json && mv tmp-package.json package.json
           echo Writing release tag to public/manifest.json
           jq '.version |= "${{ steps.tag.outputs.release_tag }}"' public/manifest.json | tee public/tmp-manifest.json && mv public/tmp-manifest.json public/manifest.json
+
+      - name: Build
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
