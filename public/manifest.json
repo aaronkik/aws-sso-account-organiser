@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "AWS SSO Account Filter",
   "description": "Browser extension that helps organise multiple AWS SSO accounts via custom regex filters",
-  "version": "2023.5.18.1938",
+  "version": "2023.5.19.310",
   "action": {
     "default_popup": "src/popup/index.html"
   },
