@@ -79,6 +79,9 @@ const onChange = async (
     | AccountFilterStatusChromeStorageChange
 ) => {
   if (!('accountFilterStatus' in changes || 'accountFilters' in changes)) return;
+  const isFilterEnabled = await accountFilterStatus.get();
+
+  if (!isFilterEnabled && 'accountFilters' in changes) return;
 
   const awsPortalAppSelected = document.querySelector(
     'portal-application[title="AWS Account"].selected'
