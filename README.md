@@ -2,7 +2,7 @@
 
 ![GitHub](https://img.shields.io/github/license/aaronkik/aws-sso-account-filter?style=flat-square)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/aaronkik/aws-sso-account-filter/main.yml?style=flat-square)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/aaronkik/aws-sso-account-filter?display_name=tag&sort=semver&style=flat-square)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/aaronkik/aws-sso-account-filter?style=flat-square)
 
 AWS SSO Account Filter is a browser extension that filters out AWS accounts you don't care about.
 
