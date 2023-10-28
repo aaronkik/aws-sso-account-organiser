@@ -27,18 +27,24 @@ export class ChromeStorageArea {
 
     if (Array.isArray(keys)) {
       return Promise.resolve(
-        keys.reduce((acc, key) => {
-          acc[key] = this.#storage[key];
-          return acc;
-        }, {} as Record<string, unknown>)
+        keys.reduce(
+          (acc, key) => {
+            acc[key] = this.#storage[key];
+            return acc;
+          },
+          {} as Record<string, unknown>,
+        ),
       );
     }
 
     return Promise.resolve(
-      Object.keys(keys).reduce((acc, key) => {
-        acc[key] = this.#storage[key];
-        return acc;
-      }, {} as Record<string, unknown>)
+      Object.keys(keys).reduce(
+        (acc, key) => {
+          acc[key] = this.#storage[key];
+          return acc;
+        },
+        {} as Record<string, unknown>,
+      ),
     );
   }
 
