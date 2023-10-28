@@ -6,12 +6,12 @@ const Input = forwardRef<HTMLInputElement, ComponentProps<'input'>>(
     <input
       className={twMerge(
         'w-full rounded-sm border border-transparent bg-slate-700 leading-6 placeholder:text-slate-500 focus:border-orange-400 focus:bg-transparent focus:ring-orange-400 focus:placeholder:text-slate-600',
-        className
+        className,
       )}
       ref={ref}
       {...props}
     />
-  )
+  ),
 );
 
 Input.displayName = 'Input';

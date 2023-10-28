@@ -43,7 +43,7 @@ class AccountFilterStorage {
     }
 
     const filteredDuplicateAccountFilters = accountFilterStorageResult.accountFilters.filter(
-      ({ filter }) => filter !== newAccountFilter.filter
+      ({ filter }) => filter !== newAccountFilter.filter,
     );
 
     return this.set([newAccountFilter, ...filteredDuplicateAccountFilters]);
