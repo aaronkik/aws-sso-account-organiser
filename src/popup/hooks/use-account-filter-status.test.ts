@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
+import { vi, describe, expect, test } from 'vitest';
 import useAccountFilterStatus from './use-account-filter-status';
 import { accountFilterStatus } from '~/services/account-filter-status';
-import { vi } from 'vitest';
 
 const spyOnGetAccountFilterStatus = () => vi.spyOn(accountFilterStatus, 'get');
 

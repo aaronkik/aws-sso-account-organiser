@@ -14,7 +14,6 @@ export default defineConfig({
       reporter: ['text', 'html', 'json', 'lcov'],
     },
     environment: 'jsdom',
-    globals: true,
     setupFiles: ['./tests/setUpGlobals.ts', './tests/setupTestingLibrary.ts'],
   },
 });
