@@ -12,7 +12,7 @@
       "groupName": "prettier"
     },
     {
-      "matchPackageNames": ["vite", "vitest", "@vitejs/plugin-react"],
+      "matchPackageNames": ["vite", "vitest", "@vitejs/plugin-react", "@vitest/coverage-c8"],
       "groupName": "vite"
     }
   ],
