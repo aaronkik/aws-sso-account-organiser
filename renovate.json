@@ -1,11 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "automerge": true,
-  "extends": ["config:base"],
+  "automergeSchedule": ["before 9am"],
+  "extends": ["config:base", "workarounds:typesNodeVersioning"],
   "npm": {
     "minimumReleaseAge": "3 days"
   },
-  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "matchPackageNames": ["prettier", "prettier-plugin-tailwindcss"],
+      "groupName": "prettier"
+    },
+    {
+      "matchPackageNames": ["vite", "vitest", "@vitejs/plugin-react"],
+      "groupName": "vite"
+    }
+  ],
   "schedule": ["after 5pm"],
   "timezone": "Europe/London"
 }
