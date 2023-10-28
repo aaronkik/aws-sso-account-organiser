@@ -12,8 +12,9 @@
       "groupName": "prettier"
     },
     {
-      "matchPackageNames": ["vite", "vitest", "@vitejs/plugin-react", "@vitest/coverage-c8"],
-      "groupName": "vite"
+      "matchPackageNames": ["vite", "vitest"],
+      "matchPackagePatterns": ["^@vitejs/", "^@vitest/"],
+      "groupName": "vite monorepo"
     }
   ],
   "schedule": ["after 5pm"],
