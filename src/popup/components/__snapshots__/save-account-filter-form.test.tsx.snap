@@ -42,10 +42,10 @@ exports[`SaveAccountFilterForm > matches snapshot 1`] = `
       </div>
       <button
         aria-label="Save account filter"
-        class="inline-flex select-none items-center justify-center rounded-sm bg-orange-400 px-4 py-1.5 text-base font-medium leading-6 text-slate-900 transition-colors duration-150 hover:bg-orange-500 focus-visible:bg-orange-600 active:bg-orange-600 min-w-[8rem]"
+        class="inline-flex select-none items-center justify-center rounded-sm bg-orange-400 px-4 py-1.5 text-base font-medium leading-6 text-slate-900 transition-colors duration-150 hover:bg-orange-500 focus-visible:bg-orange-600 active:bg-orange-600 min-w-[6rem]"
         type="submit"
       >
-        Save filter
+        Save
       </button>
     </div>
   </form>

@@ -67,8 +67,8 @@ const SaveAccountFilterForm = () => {
             <span className='text-lg font-medium text-slate-500'>/</span>
           </div>
         </div>
-        <Button aria-label='Save account filter' className='min-w-[8rem]' type='submit'>
-          Save filter
+        <Button aria-label='Save account filter' className='min-w-[6rem]' type='submit'>
+          Save
         </Button>
       </div>
       {errors.accountFilter && (
