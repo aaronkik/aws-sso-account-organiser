@@ -7,8 +7,8 @@ const spyOnAccountFilterStorageEnable = () => vi.spyOn(accountFilterStorage, 'en
 describe('accountFilterStorage', () => {
   test(`GIVEN a query to get accountFilters
         WHEN chrome storage is empty
-        THEN expect an empty object to be returned`, async () => {
-    await expect(accountFilterStorage.get()).resolves.toEqual({});
+        THEN expect an empty array of accountFilters to be returned`, async () => {
+    await expect(accountFilterStorage.get()).resolves.toEqual({ accountFilters: [] });
   });
 
   test(`GIVEN a query to get accountFilters

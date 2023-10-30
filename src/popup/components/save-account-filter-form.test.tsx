@@ -33,20 +33,20 @@ describe('SaveAccountFilterForm', () => {
   test('chrome storage does not add a new filter when save filter button submits and the account filter input is empty', async () => {
     const { saveFilterButton, user } = initialSetup();
 
-    await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
+    await expect(accountFilterStorage.get()).resolves.toStrictEqual({ accountFilters: [] });
 
     const chromeStorageSetSpy = vi.spyOn(chrome.storage.sync, 'set');
 
     await user.click(saveFilterButton);
 
     expect(chromeStorageSetSpy).not.toHaveBeenCalled();
-    await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
+    await expect(accountFilterStorage.get()).resolves.toStrictEqual({ accountFilters: [] });
   });
 
   test('chrome storage adds the user typed input as a new filter when save filter button submits', async () => {
     const { accountFilterInput, saveFilterButton, user } = initialSetup();
 
-    await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
+    await expect(accountFilterStorage.get()).resolves.toStrictEqual({ accountFilters: [] });
 
     const chromeStorageSetSpy = vi.spyOn(chrome.storage.sync, 'set');
 
@@ -66,7 +66,7 @@ describe('SaveAccountFilterForm', () => {
   test('account filter input is cleared after a user has typed an input as a new filter and the save filter button submits', async () => {
     const { accountFilterInput, saveFilterButton, user } = initialSetup();
 
-    await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
+    await expect(accountFilterStorage.get()).resolves.toStrictEqual({ accountFilters: [] });
 
     expect(accountFilterInput).toHaveValue('');
 
@@ -83,7 +83,7 @@ describe('SaveAccountFilterForm', () => {
   test('does not add duplicate filter names', async () => {
     const { accountFilterInput, saveFilterButton, user } = initialSetup();
 
-    await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
+    await expect(accountFilterStorage.get()).resolves.toStrictEqual({ accountFilters: [] });
 
     const chromeStorageSetSpy = vi.spyOn(chrome.storage.sync, 'set');
 
@@ -107,7 +107,7 @@ describe('SaveAccountFilterForm', () => {
   test('adds multiple filter names', async () => {
     const { accountFilterInput, saveFilterButton, user } = initialSetup();
 
-    await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
+    await expect(accountFilterStorage.get()).resolves.toStrictEqual({ accountFilters: [] });
 
     const chromeStorageSetSpy = vi.spyOn(chrome.storage.sync, 'set');
 
@@ -134,7 +134,7 @@ describe('SaveAccountFilterForm', () => {
   test('removes whitespace from user filter input before saving to storage', async () => {
     const { accountFilterInput, saveFilterButton, user } = initialSetup();
 
-    await expect(accountFilterStorage.get()).resolves.toStrictEqual({});
+    await expect(accountFilterStorage.get()).resolves.toStrictEqual({ accountFilters: [] });
 
     const chromeStorageSetSpy = vi.spyOn(chrome.storage.sync, 'set');
 
