@@ -48,6 +48,44 @@ class AccountFilterStorage {
 
     return this.set([newAccountFilter, ...filteredDuplicateAccountFilters]);
   }
+
+  async disable({ accountFilterId }: { accountFilterId: AccountFilter['id'] }) {
+    const accountFilterStorageResult = await this.get();
+
+    if (
+      !accountFilterStorageResult ||
+      !('accountFilters' in accountFilterStorageResult) ||
+      !Array.isArray(accountFilterStorageResult.accountFilters) ||
+      accountFilterStorageResult.accountFilters.length === 0
+    ) {
+      return;
+    }
+
+    const filteredAccountFilters = accountFilterStorageResult.accountFilters.map((accountFilter) =>
+      accountFilter.id === accountFilterId ? { ...accountFilter, enabled: false } : accountFilter,
+    );
+
+    return this.set(filteredAccountFilters);
+  }
+
+  async enable({ accountFilterId }: { accountFilterId: AccountFilter['id'] }) {
+    const accountFilterStorageResult = await this.get();
+
+    if (
+      !accountFilterStorageResult ||
+      !('accountFilters' in accountFilterStorageResult) ||
+      !Array.isArray(accountFilterStorageResult.accountFilters) ||
+      accountFilterStorageResult.accountFilters.length === 0
+    ) {
+      return;
+    }
+
+    const filteredAccountFilters = accountFilterStorageResult.accountFilters.map((accountFilter) =>
+      accountFilter.id === accountFilterId ? { ...accountFilter, enabled: true } : accountFilter,
+    );
+
+    return this.set(filteredAccountFilters);
+  }
 }
 
 export const accountFilterStorage = new AccountFilterStorage();
