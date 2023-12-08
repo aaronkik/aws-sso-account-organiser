@@ -37,7 +37,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.1.0",
-    "@vitest/coverage-v8": "^0.34.0",
+    "@vitest/coverage-v8": "^1.0.0",
     "autoprefixer": "^10.4.16",
     "cssnano": "^6.0.1",
     "eslint": "^8.52.0",
@@ -54,7 +54,7 @@
     "tailwindcss": "^3.3.4",
     "typescript": "^5.2.2",
     "vite": "^5.0.0",
-    "vitest": "^0.34.6"
+    "vitest": "^1.0.0"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
