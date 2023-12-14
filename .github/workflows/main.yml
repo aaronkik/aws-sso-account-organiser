@@ -53,7 +53,7 @@ jobs:
         run: npm run build
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}
           path: dist/
