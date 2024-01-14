@@ -1,5 +1,8 @@
 name: Main
 
+env:
+  EXTENSION_FILE_NAME: aws-sso-account-filter-web-extension
+
 on:
   push:
     branches:
@@ -52,11 +55,36 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Create chrome dist directory
+        run: |
+          cp -r  ./dist/ ./chrome-dist/
+          cd chrome-dist
+          cat manifest.json | jq 'del(.browser_specific_settings)' > chrome-manifest.json && mv chrome-manifest.json manifest.json
+
+      - name: Create firefox dist directory
+        run: cp -r  ./dist/ ./firefox-dist/
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}
+          name: ${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}
           path: dist/
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: Upload chrome artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: chrome-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}
+          path: chrome-dist/
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: Upload firefox artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: firefox-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}
+          path: firefox-dist/
           retention-days: 90
           if-no-files-found: error
 
@@ -71,14 +99,21 @@ jobs:
           git commit --all --message "🤖 Release v${{ steps.tag.outputs.release_tag }}"
           git push
 
-      - name: Compress dist for release
+      - name: Compress dist for firefox release
         run: |
-          cd dist
-          zip -r ../aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}.zip .
+          cd firefox-dist
+          zip -r ../firefox-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}.zip .
+
+      - name: Compress dist for chrome release
+        run: |
+          cd chrome-dist
+          zip -r ../chrome-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}.zip .
 
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ steps.tag.outputs.release_tag }}
-          files: aws-sso-account-filter-web-extension-v${{ steps.tag.outputs.release_tag }}.zip
+          files: |
+            chrome-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}.zip
+            firefox-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}.zip
           generate_release_notes: true
