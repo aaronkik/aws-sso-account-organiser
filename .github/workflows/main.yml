@@ -55,13 +55,13 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Create chrome dist directory
+      - name: Create Chrome dist directory
         run: |
           cp -r  ./dist/ ./chrome-dist/
           cd chrome-dist
           cat manifest.json | jq 'del(.browser_specific_settings)' > chrome-manifest.json && mv chrome-manifest.json manifest.json
 
-      - name: Create firefox dist directory
+      - name: Create Firefox dist directory
         run: cp -r  ./dist/ ./firefox-dist/
 
       - name: Upload artifact
@@ -72,7 +72,7 @@ jobs:
           retention-days: 90
           if-no-files-found: error
 
-      - name: Upload chrome artifact
+      - name: Upload Chrome artifact
         uses: actions/upload-artifact@v3
         with:
           name: chrome-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}
@@ -80,7 +80,7 @@ jobs:
           retention-days: 90
           if-no-files-found: error
 
-      - name: Upload firefox artifact
+      - name: Upload Firefox artifact
         uses: actions/upload-artifact@v3
         with:
           name: firefox-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}
@@ -99,12 +99,12 @@ jobs:
           git commit --all --message "🤖 Release v${{ steps.tag.outputs.release_tag }}"
           git push
 
-      - name: Compress dist for firefox release
+      - name: Compress dist for Firefox release
         run: |
           cd firefox-dist
           zip -r ../firefox-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}.zip .
 
-      - name: Compress dist for chrome release
+      - name: Compress dist for Chrome release
         run: |
           cd chrome-dist
           zip -r ../chrome-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}.zip .
