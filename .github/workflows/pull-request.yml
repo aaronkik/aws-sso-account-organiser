@@ -1,5 +1,8 @@
 name: Pull request
 
+env:
+  EXTENSION_FILE_NAME: aws-sso-account-filter-web-extension
+
 on: pull_request
 
 jobs:
@@ -34,9 +37,27 @@ jobs:
       - name: Build
         run: npm run build
 
-      - uses: actions/upload-artifact@v4
+      - name: Create chrome dist directory
+        run: |
+          cp -r  ./dist/ ./chrome-dist/
+          cd chrome-dist
+          cat manifest.json | jq 'del(.browser_specific_settings)' > chrome-manifest.json && mv chrome-manifest.json manifest.json
+
+      - name: Create firefox dist directory
+        run: cp -r  ./dist/ ./firefox-dist/
+
+      - name: Upload chrome artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: aws-sso-account-filter-web-extension-${{ github.run_id }}
-          path: dist/
-          retention-days: 14
+          name: chrome-${{ env.EXTENSION_FILE_NAME }}-${{ github.run_id }}
+          path: chrome-dist/
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: Upload firefox artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: firefox-${{ env.EXTENSION_FILE_NAME }}-${{ github.run_id }}
+          path: firefox-dist/
+          retention-days: 7
           if-no-files-found: error
