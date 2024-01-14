@@ -4,7 +4,7 @@ exports[`AccountFilterItemToggle > matches snapshot when filter is disabled 1`] 
 <div>
   <button
     aria-checked="false"
-    class="bg-slate-400 relative inline-flex h-7 w-11 items-center rounded-sm min-w-11"
+    class="bg-slate-400 relative inline-flex h-7 w-11 min-w-11 items-center rounded-sm"
     data-headlessui-state=""
     id="headlessui-switch-:r1:"
     role="switch"
@@ -27,7 +27,7 @@ exports[`AccountFilterItemToggle > matches snapshot when filter is enabled 1`] =
 <div>
   <button
     aria-checked="true"
-    class="bg-orange-400 relative inline-flex h-7 w-11 items-center rounded-sm min-w-11"
+    class="bg-orange-400 relative inline-flex h-7 w-11 min-w-11 items-center rounded-sm"
     data-headlessui-state="checked"
     id="headlessui-switch-:r0:"
     role="switch"
