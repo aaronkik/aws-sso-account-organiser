@@ -1,5 +1,7 @@
+import { TrashIcon } from '@heroicons/react/24/outline';
 import { Button } from '~/components';
 import { accountFilterStorage, type AccountFilter } from '~/services/account-filter-storage';
+import AccountFilterItemToggle from './account-filter-item-toggle';
 
 interface Props {
   filterItem: AccountFilter;
@@ -22,14 +24,17 @@ const AccountFilterItem = (props: Props) => {
   };
 
   return (
-    <li className='flex flex-row items-center justify-between gap-4 p-4 transition-colors hover:bg-slate-600/80'>
-      <p className='overflow-hidden text-ellipsis whitespace-nowrap text-base'>{filterName}</p>
+    <li className='flex flex-row items-center justify-start gap-4 p-4 transition-colors hover:bg-slate-600/80'>
+      <AccountFilterItemToggle accountFilterItem={props.filterItem} />
+      <p className='flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-base'>
+        {filterName}
+      </p>
       <Button
         aria-label={`Delete account filter ${filterName}`}
-        className='bg-red-400 text-sm hover:bg-red-500 focus-visible:bg-red-600 active:bg-red-600'
+        className='border-[1px] border-red-400 bg-transparent px-2 hover:bg-red-500/10 focus-visible:bg-red-600/10 active:bg-red-600/10'
         onClick={deleteFilterItem}
       >
-        Delete
+        <TrashIcon className='h-5 w-5 text-red-400' />
       </Button>
     </li>
   );
