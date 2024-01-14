@@ -34,7 +34,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: aws-sso-account-filter-web-extension-${{ github.run_id }}
           path: dist/
