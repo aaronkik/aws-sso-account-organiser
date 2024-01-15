@@ -1,11 +1,14 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { accountFilterStorage } from './account-filter-storage';
+
+const spyOnAccountFilterStorageDisable = () => vi.spyOn(accountFilterStorage, 'disable');
+const spyOnAccountFilterStorageEnable = () => vi.spyOn(accountFilterStorage, 'enable');
 
 describe('accountFilterStorage', () => {
   test(`GIVEN a query to get accountFilters
         WHEN chrome storage is empty
-        THEN expect an empty object to be returned`, async () => {
-    await expect(accountFilterStorage.get()).resolves.toEqual({});
+        THEN expect an empty array of accountFilters to be returned`, async () => {
+    await expect(accountFilterStorage.get()).resolves.toEqual({ accountFilters: [] });
   });
 
   test(`GIVEN a query to get accountFilters
@@ -149,6 +152,134 @@ describe('accountFilterStorage', () => {
 
     await expect(accountFilterStorage.get()).resolves.toEqual({
       accountFilters: [{ id: expect.any(String), enabled: true, filter: 'foo' }],
+    });
+  });
+
+  test(`GIVEN an accountFilter is added
+        WHEN the added accountFilter is disabled
+        THEN expect the accountFilter enabled key to change from true to false`, async () => {
+    const accountFilterStorageDisableSpy = spyOnAccountFilterStorageDisable();
+    const accountFilterName = 'foo';
+
+    await accountFilterStorage.add(accountFilterName);
+
+    const accountFilterStorageResult = await accountFilterStorage.get();
+
+    expect(accountFilterStorageResult).toEqual({
+      accountFilters: [{ id: expect.any(String), enabled: true, filter: accountFilterName }],
+    });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const accountFilterId = accountFilterStorageResult?.accountFilters[0].id;
+
+    await accountFilterStorage.disable({ accountFilterId });
+    expect(accountFilterStorageDisableSpy).toHaveBeenNthCalledWith(1, { accountFilterId });
+
+    const disabledAccountFilterStorageResult = await accountFilterStorage.get();
+
+    expect(disabledAccountFilterStorageResult).toEqual({
+      accountFilters: [{ id: expect.any(String), enabled: false, filter: accountFilterName }],
+    });
+  });
+
+  test(`GIVEN accountFilters are set to be enabled
+        WHEN an accountFilter that does not exist is attempted to be disabled
+        THEN expect accountFilters to remain enabled`, async () => {
+    const accountFilterStorageDisableSpy = spyOnAccountFilterStorageDisable();
+
+    await accountFilterStorage.set([
+      { id: '1', enabled: true, filter: 'foo' },
+      { id: '2', enabled: true, filter: 'bar' },
+      { id: '3', enabled: true, filter: 'baz' },
+    ]);
+
+    await expect(accountFilterStorage.get()).resolves.toEqual({
+      accountFilters: [
+        { id: '1', enabled: true, filter: 'foo' },
+        { id: '2', enabled: true, filter: 'bar' },
+        { id: '3', enabled: true, filter: 'baz' },
+      ],
+    });
+
+    await accountFilterStorage.disable({ accountFilterId: '4' });
+    expect(accountFilterStorageDisableSpy).toHaveBeenNthCalledWith(1, { accountFilterId: '4' });
+
+    await expect(accountFilterStorage.get()).resolves.toEqual({
+      accountFilters: [
+        { id: '1', enabled: true, filter: 'foo' },
+        { id: '2', enabled: true, filter: 'bar' },
+        { id: '3', enabled: true, filter: 'baz' },
+      ],
+    });
+  });
+
+  test(`GIVEN an accountFilter is added
+        WHEN the added accountFilter is disabled and then enabled
+        THEN expect the accountFilter enabled key to change from true to false to true`, async () => {
+    const accountFilterStorageDisableSpy = spyOnAccountFilterStorageDisable();
+    const accountFilterStorageEnableSpy = spyOnAccountFilterStorageEnable();
+    const accountFilterName = 'foo';
+
+    await accountFilterStorage.add(accountFilterName);
+
+    const accountFilterStorageResult = await accountFilterStorage.get();
+
+    expect(accountFilterStorageResult).toEqual({
+      accountFilters: [{ id: expect.any(String), enabled: true, filter: accountFilterName }],
+    });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const accountFilterId = accountFilterStorageResult?.accountFilters[0].id;
+
+    await accountFilterStorage.disable({ accountFilterId });
+    expect(accountFilterStorageDisableSpy).toHaveBeenNthCalledWith(1, { accountFilterId });
+
+    const disabledAccountFilterStorageResult = await accountFilterStorage.get();
+
+    expect(disabledAccountFilterStorageResult).toEqual({
+      accountFilters: [{ id: accountFilterId, enabled: false, filter: accountFilterName }],
+    });
+
+    await accountFilterStorage.enable({ accountFilterId });
+    expect(accountFilterStorageEnableSpy).toHaveBeenNthCalledWith(1, { accountFilterId });
+
+    const enabledAccountFilterStorageResult = await accountFilterStorage.get();
+
+    expect(enabledAccountFilterStorageResult).toEqual({
+      accountFilters: [{ id: accountFilterId, enabled: true, filter: accountFilterName }],
+    });
+  });
+
+  test(`GIVEN accountFilters are set to all be disabled
+        WHEN an accountFilter that does not exist is attempted to be enabled
+        THEN expect accountFilters to remain disabled`, async () => {
+    const accountFilterStorageEnableSpy = spyOnAccountFilterStorageEnable();
+
+    await accountFilterStorage.set([
+      { id: '1', enabled: false, filter: 'foo' },
+      { id: '2', enabled: false, filter: 'bar' },
+      { id: '3', enabled: false, filter: 'baz' },
+    ]);
+
+    await expect(accountFilterStorage.get()).resolves.toEqual({
+      accountFilters: [
+        { id: '1', enabled: false, filter: 'foo' },
+        { id: '2', enabled: false, filter: 'bar' },
+        { id: '3', enabled: false, filter: 'baz' },
+      ],
+    });
+
+    await accountFilterStorage.enable({ accountFilterId: '4' });
+    expect(accountFilterStorageEnableSpy).toHaveBeenNthCalledWith(1, { accountFilterId: '4' });
+
+    await expect(accountFilterStorage.get()).resolves.toEqual({
+      accountFilters: [
+        { id: '1', enabled: false, filter: 'foo' },
+        { id: '2', enabled: false, filter: 'bar' },
+        { id: '3', enabled: false, filter: 'baz' },
+      ],
     });
   });
 });

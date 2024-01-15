@@ -1,0 +1,47 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AccountFilterItemToggle > matches snapshot when filter is disabled 1`] = `
+<div>
+  <button
+    aria-checked="false"
+    class="bg-slate-400 relative inline-flex h-7 w-11 min-w-11 items-center rounded-sm"
+    data-headlessui-state=""
+    id="headlessui-switch-:r1:"
+    role="switch"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="sr-only"
+    >
+      Enable FizzBuzz filter
+    </span>
+    <span
+      class="translate-x-1 inline-block h-5 w-4 transform rounded-sm bg-white transition"
+    />
+  </button>
+</div>
+`;
+
+exports[`AccountFilterItemToggle > matches snapshot when filter is enabled 1`] = `
+<div>
+  <button
+    aria-checked="true"
+    class="bg-orange-400 relative inline-flex h-7 w-11 min-w-11 items-center rounded-sm"
+    data-headlessui-state="checked"
+    id="headlessui-switch-:r0:"
+    role="switch"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="sr-only"
+    >
+      Disable FizzBuzz filter
+    </span>
+    <span
+      class="translate-x-6 inline-block h-5 w-4 transform rounded-sm bg-white transition"
+    />
+  </button>
+</div>
+`;

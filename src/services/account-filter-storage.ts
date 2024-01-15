@@ -1,6 +1,6 @@
 import { ChromeStorageSync } from '~/repositories';
 
-const accountFiltersStorageKey = 'accountFilters';
+const ACCOUNT_FILTER_STORAGE_KEY = 'accountFilters';
 
 export type AccountFilter = {
   enabled: boolean;
@@ -9,15 +9,46 @@ export type AccountFilter = {
 };
 
 type GetAccountFilterStorage = {
-  [accountFiltersStorageKey]?: Array<AccountFilter>;
+  [ACCOUNT_FILTER_STORAGE_KEY]: Array<AccountFilter>;
 };
 
 class AccountFilterStorage {
-  #storageKey = accountFiltersStorageKey;
+  #storageKey = ACCOUNT_FILTER_STORAGE_KEY;
   #storage = new ChromeStorageSync();
 
-  async get() {
-    return this.#storage.get<GetAccountFilterStorage>(this.#storageKey);
+  #updateFilterStatusById = async ({
+    accountFilterId,
+    enabled,
+  }: {
+    accountFilterId: AccountFilter['id'];
+    enabled: boolean;
+  }) => {
+    const { accountFilters } = await this.get();
+
+    if (accountFilters.length === 0) return;
+
+    const updatedAccountFilters = accountFilters.map((accountFilter) =>
+      accountFilter.id === accountFilterId ? { ...accountFilter, enabled } : accountFilter,
+    );
+
+    return this.set(updatedAccountFilters);
+  };
+
+  async get(): Promise<GetAccountFilterStorage> {
+    const accountFilterStorageResult = await this.#storage.get<GetAccountFilterStorage>(
+      this.#storageKey,
+    );
+
+    if (
+      accountFilterStorageResult &&
+      'accountFilters' in accountFilterStorageResult &&
+      Array.isArray(accountFilterStorageResult.accountFilters)
+    ) {
+      return accountFilterStorageResult;
+    }
+
+    await this.set([]);
+    return { accountFilters: [] };
   }
 
   async set(accountFilters: Array<AccountFilter>) {
@@ -31,22 +62,25 @@ class AccountFilterStorage {
       id: crypto.randomUUID(),
     };
 
-    const accountFilterStorageResult = await this.get();
+    const { accountFilters } = await this.get();
 
-    if (
-      !accountFilterStorageResult ||
-      !('accountFilters' in accountFilterStorageResult) ||
-      !Array.isArray(accountFilterStorageResult.accountFilters) ||
-      accountFilterStorageResult.accountFilters.length === 0
-    ) {
+    if (accountFilters.length === 0) {
       return this.set([newAccountFilter]);
     }
 
-    const filteredDuplicateAccountFilters = accountFilterStorageResult.accountFilters.filter(
+    const filteredDuplicateAccountFilters = accountFilters.filter(
       ({ filter }) => filter !== newAccountFilter.filter,
     );
 
     return this.set([newAccountFilter, ...filteredDuplicateAccountFilters]);
+  }
+
+  async disable({ accountFilterId }: { accountFilterId: AccountFilter['id'] }) {
+    return this.#updateFilterStatusById({ accountFilterId, enabled: false });
+  }
+
+  async enable({ accountFilterId }: { accountFilterId: AccountFilter['id'] }) {
+    return this.#updateFilterStatusById({ accountFilterId, enabled: true });
   }
 }
 
