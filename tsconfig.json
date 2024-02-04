@@ -10,7 +10,7 @@
     "rootDir": "./",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
     },
     "sourceMap": true,
     "removeComments": true,
@@ -38,7 +38,8 @@
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
     "useDefineForClassFields": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
   },
-  "include": ["src/**/*", "tests/**/*"]
+  "include": ["src/**/*", "tests/**/*"],
 }
