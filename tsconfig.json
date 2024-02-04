@@ -39,6 +39,7 @@
     "allowUnreachableCode": false,
     "useDefineForClassFields": true,
     "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
   },
   "include": ["src/**/*", "tests/**/*"],
 }
