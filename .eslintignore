@@ -8,4 +8,3 @@ dist
 
 # Ignore config files
 tailwind.config.*
-tsconfig.json
