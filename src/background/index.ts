@@ -6,8 +6,8 @@ import type {
 } from '~/types';
 
 const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
-  const accountFilterStatusisEnabled = await accountFilterStatus.get();
-  if (!accountFilterStatusisEnabled) return;
+  const accountFilterStatusIsEnabled = await accountFilterStatus.get();
+  if (!accountFilterStatusIsEnabled) return;
 
   for (const { addedNodes } of mutationRecord) {
     for (const addedNode of addedNodes.values()) {
@@ -49,7 +49,9 @@ const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
       let accountFilterRegExes: Array<RegExp>;
 
       try {
-        accountFilterRegExes = accountFilters.map(({ filter }) => new RegExp(filter, 'iu'));
+        accountFilterRegExes = accountFilters
+          .filter(({ enabled }) => enabled === true)
+          .map(({ filter }) => new RegExp(filter, 'iu'));
       } catch (error) {
         console.error('Error creating RegExp from accountFilters', error);
         continue;
