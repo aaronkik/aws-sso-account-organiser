@@ -112,7 +112,7 @@ jobs:
           zip -r ../chrome-${{ env.EXTENSION_FILE_NAME }}-v${{ steps.tag.outputs.release_tag }}.zip .
 
       - name: Create release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.tag.outputs.release_tag }}
           files: |
