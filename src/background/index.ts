@@ -1,9 +1,9 @@
 import { accountFilterStatus } from '~/services/account-filter-status';
 import { accountFilterStorage } from '~/services/account-filter-storage';
-import type {
-  AccountFilterChromeStorageChange,
-  AccountFilterStatusChromeStorageChange,
-} from '~/types';
+// import type {
+//   AccountFilterChromeStorageChange,
+//   AccountFilterStatusChromeStorageChange,
+// } from '~/types';
 
 const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
   const accountFilterStatusIsEnabled = await accountFilterStatus.get();
@@ -11,24 +11,11 @@ const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
 
   for (const { addedNodes } of mutationRecord) {
     for (const addedNode of addedNodes.values()) {
-      const { nodeName } = addedNode;
-      const isAwsAccountPortalApp =
-        nodeName === 'PORTAL-APPLICATION' &&
-        addedNode instanceof HTMLElement &&
-        addedNode.getAttribute('title') === 'AWS Account';
+      if (!(addedNode instanceof HTMLElement)) continue;
 
-      if (isAwsAccountPortalApp) {
-        addedNode.click();
-        continue;
-      }
+      const accountListElement = addedNode.querySelector('[data-testid="account-list"]');
 
-      const isSsoExpander = nodeName === 'SSO-EXPANDER' && addedNode instanceof HTMLElement;
-
-      if (!isSsoExpander) continue;
-
-      const portalInstanceList = addedNode.querySelector('portal-instance-list');
-
-      if (!portalInstanceList) continue;
+      if (!accountListElement) continue;
 
       let userStorageAccountFilters: Awaited<ReturnType<(typeof accountFilterStorage)['get']>>;
 
@@ -60,41 +47,32 @@ const documentBodyObserver = new MutationObserver(async (mutationRecord) => {
       const accountNameMatchesAccountFilterRegExes = (awsAccountName: string) =>
         accountFilterRegExes.some((accountFilterRegEx) => accountFilterRegEx.test(awsAccountName));
 
-      const portalInstances = addedNode.querySelectorAll('portal-instance-list > div');
-      const filteredAwsAccountNodes = Array.from(portalInstances).filter((instance) => {
-        const awsAccountName = instance.querySelector('.name')?.textContent;
+      const accountListItems = addedNode.querySelectorAll('[data-testid="account-list"] > div');
+      const filteredAwsAccountElements = Array.from(accountListItems).filter((listItem) => {
+        const awsAccountName = listItem.querySelector('strong')?.textContent;
         if (!awsAccountName) return false;
         return accountNameMatchesAccountFilterRegExes(awsAccountName);
       });
 
-      portalInstanceList.replaceChildren(...filteredAwsAccountNodes);
+      accountListElement.replaceChildren(...filteredAwsAccountElements);
     }
   }
 });
 
 documentBodyObserver.observe(document.body, { childList: true, subtree: true });
 
-const onChange = async (
-  changes:
-    | chrome.storage.StorageChange
-    | AccountFilterChromeStorageChange
-    | AccountFilterStatusChromeStorageChange,
-) => {
-  if (!('accountFilterStatus' in changes || 'accountFilters' in changes)) return;
-  const isFilterEnabled = await accountFilterStatus.get();
-
-  if (!isFilterEnabled && 'accountFilters' in changes) return;
-
-  const awsPortalAppSelected = document.querySelector(
-    'portal-application[title="AWS Account"].selected',
-  );
-
-  if (awsPortalAppSelected instanceof HTMLElement) {
-    /** dblClick event doesn't work 🤔 */
-    const clickEvent = new MouseEvent('click');
-    awsPortalAppSelected.dispatchEvent(clickEvent);
-    awsPortalAppSelected.dispatchEvent(clickEvent);
-  }
-};
-
-chrome.storage.onChanged.addListener(onChange);
+// TODO: Can I make this work?
+// const onChange = async (
+//   changes:
+//     | chrome.storage.StorageChange
+//     | AccountFilterChromeStorageChange
+//     | AccountFilterStatusChromeStorageChange,
+// ) => {
+//   if (!('accountFilterStatus' in changes || 'accountFilters' in changes)) return;
+//   const isFilterEnabled = await accountFilterStatus.get();
+//
+//   if (!isFilterEnabled && 'accountFilters' in changes) return;
+//
+// };
+//
+// chrome.storage.onChanged.addListener(onChange);
