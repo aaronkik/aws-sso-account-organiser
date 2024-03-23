@@ -1,6 +1,6 @@
 {
   "name": "aws-sso-account-filter",
-  "version": "2024.3.22.1936",
+  "version": "2024.3.23.1839",
   "author": "Aaron Kikabhai",
   "description": "A browser extension that reduces the list of AWS SSO accounts via custom regex filters",
   "license": "MIT",
