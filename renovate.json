@@ -15,6 +15,11 @@
       "matchPackageNames": ["vite", "vitest"],
       "matchPackagePatterns": ["^@vitejs/", "^@vitest/"],
       "groupName": "vite monorepo"
+    },
+    {
+      "matchPackageNames": ["eslint"],
+      "matchPackagePatterns": ["^eslint*"],
+      "groupName": "eslint"
     }
   ],
   "schedule": ["after 5pm"],
