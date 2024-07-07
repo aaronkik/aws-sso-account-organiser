@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "AWS SSO Account Filter",
   "description": "A browser extension that reduces the list of AWS SSO accounts via custom regex filters",
-  "version": "2024.7.6.1934",
+  "version": "2024.7.7.2250",
   "action": {
     "default_popup": "src/popup/index.html"
   },
