@@ -11,12 +11,12 @@ export default defineConfig({
   },
   build: {
     copyPublicDir: false,
+    minify: false,
     rollupOptions: {
       input: resolve(srcDir, 'background/index.ts'),
       output: {
         dir: resolve(__dirname, 'dist/background'),
         entryFileNames: '[name].js',
-        inlineDynamicImports: true,
       },
     },
   },
