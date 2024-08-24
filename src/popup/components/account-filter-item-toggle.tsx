@@ -9,9 +9,11 @@ const AccountFilterItemToggle = ({ accountFilterItem }: AccountFilterItemToggleP
   const { id, enabled, filter: filterName } = accountFilterItem;
 
   const toggleFilterItemStatus = async () => {
-    enabled
-      ? await accountFilterStorage.disable({ accountFilterId: id })
-      : await accountFilterStorage.enable({ accountFilterId: id });
+    if (enabled) {
+      await accountFilterStorage.disable({ accountFilterId: id });
+      return;
+    }
+    await accountFilterStorage.enable({ accountFilterId: id });
   };
 
   return (
