@@ -33,7 +33,7 @@
     "@testing-library/react": "16.0.1",
     "@testing-library/user-event": "14.5.2",
     "@types/chrome": "0.0.279",
-    "@types/node": "22.8.2",
+    "@types/node": "22.8.4",
     "@types/react": "18.3.8",
     "@types/react-dom": "18.3.0",
     "@typescript-eslint/eslint-plugin": "8.12.2",
@@ -63,7 +63,7 @@
     "*.{ts,tsx}": "eslint"
   },
   "volta": {
-    "node": "20.17.0",
+    "node": "22.11.0",
     "npm": "10.9.0"
   }
 }
