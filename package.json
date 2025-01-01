@@ -19,7 +19,7 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
-    "@fontsource/inter": "5.1.0",
+    "@fontsource/inter": "5.1.1",
     "@headlessui/react": "1.7.18",
     "@heroicons/react": "2.2.0",
     "react": "19.0.0",
